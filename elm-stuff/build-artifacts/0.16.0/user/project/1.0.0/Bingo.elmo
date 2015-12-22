@@ -1,0 +1,91 @@
+Elm.Bingo = Elm.Bingo || {};
+Elm.Bingo.make = function (_elm) {
+   "use strict";
+   _elm.Bingo = _elm.Bingo || {};
+   if (_elm.Bingo.values) return _elm.Bingo.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp$Simple = Elm.StartApp.Simple.make(_elm),
+   $String = Elm.String.make(_elm);
+   var _op = {};
+   var Mark = function (a) {    return {ctor: "Mark",_0: a};};
+   var Add = {ctor: "Add"};
+   var Delete = function (a) {    return {ctor: "Delete",_0: a};};
+   var Sort = {ctor: "Sort"};
+   var NoOp = {ctor: "NoOp"};
+   var newEntry = F3(function (phrase,points,id) {    return {phrase: phrase,points: points,wasSpoken: false,id: id};});
+   var initialModel = {addFormString: "lol",entries: _U.list([A3(newEntry,"jonathan",5000,1),A3(newEntry,"henry",1000,2)])};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "Sort": return _U.update(model,{entries: A2($List.sortBy,function (_) {    return _.points;},model.entries)});
+         case "Delete": var remainingEntries = A2($List.filter,function (e) {    return !_U.eq(e.id,_p0._0);},model.entries);
+           return _U.update(model,{entries: remainingEntries});
+         case "Mark": var updateEntry = function (e) {    return _U.eq(e.id,_p0._0) ? _U.update(e,{wasSpoken: $Basics.not(e.wasSpoken)}) : e;};
+           return _U.update(model,{entries: A2($List.map,updateEntry,model.entries)});
+         default: var concatNewEntry = function (id) {    return A2($List.append,model.entries,_U.list([A3(newEntry,initialModel.addFormString,1000,id)]));};
+           var newId = $List.length(model.entries) + 1;
+           return _U.update(model,{entries: concatNewEntry(newId)});}
+   });
+   var title = function (string) {    return $String.toUpper(string);};
+   var entryItem = F2(function (address,entry) {
+      return A2($Html.li,
+      _U.list([$Html$Attributes.$class(A2($Basics._op["++"],"entry-",$Basics.toString(entry.id)))
+              ,$Html$Attributes.classList(_U.list([{ctor: "_Tuple2",_0: "marked",_1: entry.wasSpoken}]))
+              ,A2($Html$Events.onClick,address,Mark(entry.id))]),
+      _U.list([A2($Html.span,_U.list([$Html$Attributes.$class("phrase")]),_U.list([$Html.text(entry.phrase)]))
+              ,A2($Html.span,_U.list([$Html$Attributes.$class("points")]),_U.list([$Html.text($Basics.toString(entry.points))]))
+              ,A2($Html.span,
+              _U.list([]),
+              _U.list([A2($Html.button,
+              _U.list([$Html$Attributes.$class("delete"),A2($Html$Events.onClick,address,Delete(entry.id))]),
+              _U.list([$Html.text("Delete")]))]))]));
+   });
+   var entryList = F2(function (address,entries) {    return A2($Html.ul,_U.list([]),A2($List.map,entryItem(address),entries));});
+   var pageFooter = A2($Html.footer,
+   _U.list([]),
+   _U.list([A2($Html.a,_U.list([$Html$Attributes.href("http://google.com")]),_U.list([$Html.text("My Website")]))]));
+   var addForm = function (address) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("add-form")]),
+      _U.list([A2($Html.input,_U.list([$Html$Attributes.value(initialModel.addFormString)]),_U.list([]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Add)]),_U.list([$Html.text("add new")]))]));
+   };
+   var pageHeader = A2($Html.h1,_U.list([$Html$Attributes.$class("header")]),_U.list([$Html.text(title("Bingo!"))]));
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("container")]),
+      _U.list([pageHeader
+              ,A2(entryList,address,model.entries)
+              ,A2($Html.button,_U.list([$Html$Attributes.$class("sort"),A2($Html$Events.onClick,address,Sort)]),_U.list([$Html.text("Sort")]))
+              ,addForm(address)
+              ,pageFooter]));
+   });
+   var main = $StartApp$Simple.start({model: initialModel,view: view,update: update});
+   return _elm.Bingo.values = {_op: _op
+                              ,main: main
+                              ,view: view
+                              ,pageHeader: pageHeader
+                              ,addForm: addForm
+                              ,pageFooter: pageFooter
+                              ,entryList: entryList
+                              ,entryItem: entryItem
+                              ,title: title
+                              ,newEntry: newEntry
+                              ,initialModel: initialModel
+                              ,NoOp: NoOp
+                              ,Sort: Sort
+                              ,Delete: Delete
+                              ,Add: Add
+                              ,Mark: Mark
+                              ,update: update};
+};
