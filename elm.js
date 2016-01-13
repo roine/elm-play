@@ -10286,6 +10286,39 @@ Elm.Html.Events.make = function (_elm) {
                                     ,keyCode: keyCode
                                     ,Options: Options};
 };
+Elm.StartApp = Elm.StartApp || {};
+Elm.StartApp.Simple = Elm.StartApp.Simple || {};
+Elm.StartApp.Simple.make = function (_elm) {
+   "use strict";
+   _elm.StartApp = _elm.StartApp || {};
+   _elm.StartApp.Simple = _elm.StartApp.Simple || {};
+   if (_elm.StartApp.Simple.values) return _elm.StartApp.Simple.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var start = function (config) {
+      var update = F2(function (maybeAction,model) {
+         var _p0 = maybeAction;
+         if (_p0.ctor === "Just") {
+               return A2(config.update,_p0._0,model);
+            } else {
+               return _U.crashCase("StartApp.Simple",{start: {line: 91,column: 7},end: {line: 96,column: 52}},_p0)("This should never happen.");
+            }
+      });
+      var actions = $Signal.mailbox($Maybe.Nothing);
+      var address = A2($Signal.forwardTo,actions.address,$Maybe.Just);
+      var model = A3($Signal.foldp,update,config.model,actions.signal);
+      return A2($Signal.map,config.view(address),model);
+   };
+   var Config = F3(function (a,b,c) {    return {model: a,view: b,update: c};});
+   return _elm.StartApp.Simple.values = {_op: _op,Config: Config,start: start};
+};
 Elm.Bingo = Elm.Bingo || {};
 Elm.Bingo.make = function (_elm) {
    "use strict";
@@ -10294,34 +10327,104 @@ Elm.Bingo.make = function (_elm) {
    var _U = Elm.Native.Utils.make(_elm),
    $Basics = Elm.Basics.make(_elm),
    $Debug = Elm.Debug.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm),
+   $StartApp$Simple = Elm.StartApp.Simple.make(_elm),
    $String = Elm.String.make(_elm);
    var _op = {};
-   var title = function (string) {    return $String.toUpper(string);};
-   var entryItem = F2(function (phrase,points) {
-      return A2($Html.li,
-      _U.list([]),
-      _U.list([A2($Html.span,_U.list([$Html$Attributes.$class("phrase")]),_U.list([$Html.text(phrase)]))
-              ,A2($Html.span,_U.list([$Html$Attributes.$class("points")]),_U.list([$Html.text($Basics.toString(points))]))]));
+   var Mark = function (a) {    return {ctor: "Mark",_0: a};};
+   var Add = {ctor: "Add"};
+   var Delete = function (a) {    return {ctor: "Delete",_0: a};};
+   var Sort = {ctor: "Sort"};
+   var NoOp = {ctor: "NoOp"};
+   var $debugger = function (model) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("debugger-wrapper")]),
+      _U.list([A2($Html.div,_U.list([$Html$Attributes.$class("debugger")]),_U.list([$Html.fromElement($Graphics$Element.show(model))]))]));
+   };
+   var newEntry = F3(function (phrase,points,id) {    return {phrase: phrase,points: points,wasSpoken: false,id: id};});
+   var initialModel = {addFormName: "lol",addFormPoints: 100,entries: _U.list([A3(newEntry,"jonathan",5000,1),A3(newEntry,"henry1",100,2)])};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "Sort": return _U.update(model,{entries: A2($List.sortBy,function (_) {    return _.points;},model.entries)});
+         case "Delete": var remainingEntries = A2($List.filter,function (e) {    return !_U.eq(e.id,_p0._0);},model.entries);
+           return _U.update(model,{entries: remainingEntries});
+         case "Mark": var updateEntry = function (e) {    return _U.eq(e.id,_p0._0) ? _U.update(e,{wasSpoken: $Basics.not(e.wasSpoken)}) : e;};
+           return _U.update(model,{entries: A2($List.map,updateEntry,model.entries)});
+         default: var concatNewEntry = function (id) {
+              return A2($List.append,model.entries,_U.list([A3(newEntry,initialModel.addFormName,initialModel.addFormPoints,id)]));
+           };
+           var newId = $List.length(model.entries) + 1;
+           return _U.update(model,{entries: concatNewEntry(newId)});}
    });
-   var entryList = A2($Html.ul,_U.list([]),_U.list([A2(entryItem,"jonathan",3)]));
+   var title = function (string) {    return $String.toUpper(string);};
+   var entryItem = F2(function (address,entry) {
+      return A2($Html.li,
+      _U.list([$Html$Attributes.$class(A2($Basics._op["++"],"entry-",$Basics.toString(entry.id)))
+              ,$Html$Attributes.classList(_U.list([{ctor: "_Tuple2",_0: "marked",_1: entry.wasSpoken}]))
+              ,A2($Html$Events.onClick,address,Mark(entry.id))]),
+      _U.list([A2($Html.span,_U.list([$Html$Attributes.$class("phrase")]),_U.list([$Html.text(entry.phrase)]))
+              ,A2($Html.span,_U.list([$Html$Attributes.$class("points")]),_U.list([$Html.text($Basics.toString(entry.points))]))
+              ,A2($Html.span,
+              _U.list([]),
+              _U.list([A2($Html.button,
+              _U.list([$Html$Attributes.$class("delete"),A2($Html$Events.onClick,address,Delete(entry.id))]),
+              _U.list([$Html.text("Delete")]))]))]));
+   });
+   var entryList = F2(function (address,entries) {    return A2($Html.ul,_U.list([]),A2($List.map,entryItem(address),entries));});
    var pageFooter = A2($Html.footer,
    _U.list([]),
-   _U.list([A2($Html.a,_U.list([$Html$Attributes.href("http://google.com")]),_U.list([$Html.text("Lol software112588")]))]));
+   _U.list([A2($Html.a,_U.list([$Html$Attributes.href("http://google.com")]),_U.list([$Html.text("My Website")]))]));
+   var addForm = function (address) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("add-form")]),
+      _U.list([A2($Html.input,_U.list([$Html$Attributes.value(initialModel.addFormName)]),_U.list([]))
+              ,A2($Html.input,_U.list([$Html$Attributes.type$("number"),$Html$Attributes.value($Basics.toString(initialModel.addFormPoints))]),_U.list([]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Add)]),_U.list([$Html.text("add new")]))]));
+   };
+   var totalPoints = function (model) {
+      var totalScore = function (list) {    return $List.sum(A2($List.map,function (_) {    return _.points;},list));};
+      var spokenEntries = A2($List.filter,function (_) {    return _.wasSpoken;},model.entries);
+      return $Html.text($Basics.toString(totalScore(spokenEntries)));
+   };
    var pageHeader = A2($Html.h1,_U.list([$Html$Attributes.$class("header")]),_U.list([$Html.text(title("Bingo!"))]));
-   var view = A2($Html.div,_U.list([$Html$Attributes.$class("container")]),_U.list([pageHeader,entryList,pageFooter]));
-   var main = view;
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("container")]),
+      _U.list([pageHeader
+              ,totalPoints(model)
+              ,A2(entryList,address,model.entries)
+              ,A2($Html.button,_U.list([$Html$Attributes.$class("sort"),A2($Html$Events.onClick,address,Sort)]),_U.list([$Html.text("Sort")]))
+              ,addForm(address)
+              ,pageFooter
+              ,$debugger(model)]));
+   });
+   var main = $StartApp$Simple.start({model: initialModel,view: view,update: update});
    return _elm.Bingo.values = {_op: _op
                               ,main: main
                               ,view: view
                               ,pageHeader: pageHeader
+                              ,totalPoints: totalPoints
+                              ,addForm: addForm
                               ,pageFooter: pageFooter
                               ,entryList: entryList
                               ,entryItem: entryItem
-                              ,title: title};
+                              ,title: title
+                              ,newEntry: newEntry
+                              ,initialModel: initialModel
+                              ,$debugger: $debugger
+                              ,NoOp: NoOp
+                              ,Sort: Sort
+                              ,Delete: Delete
+                              ,Add: Add
+                              ,Mark: Mark
+                              ,update: update};
 };

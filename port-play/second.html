@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="second.js"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="append-here"></div>
+  <script>
+    var appEl = document.getElementById("app");
+    var app = Elm.embed(Elm.Second, appEl);
+
+    // for some reason directly passing alert/console.log doesnt work
+    app.ports.isActive.subscribe(append);
+
+    function append(str){
+      document.getElementById("append-here").innerHTML = "From Elm, displayed by JS: " + str
+    }
+  </script>
+</body>
+</html>

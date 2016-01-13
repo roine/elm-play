@@ -1,0 +1,51 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "AddUp": return _U.update(model,{ups: model.ups + 1});
+         default: return _U.update(model,{downs: model.downs + 1});}
+   });
+   var init = {ups: 0,downs: 0};
+   var Model = F2(function (a,b) {    return {ups: a,downs: b};});
+   var NoOp = {ctor: "NoOp"};
+   var inbox = $Signal.mailbox(NoOp);
+   var actions = inbox.signal;
+   var model = A3($Signal.foldp,update,init,actions);
+   var AddDown = {ctor: "AddDown"};
+   var AddUp = {ctor: "AddUp"};
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text($Basics.toString(model))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,AddUp)]),_U.list([$Html.text("up")]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,AddDown)]),_U.list([$Html.text("Down")]))]));
+   });
+   var main = A2($Signal.map,view(inbox.address),model);
+   return _elm.Main.values = {_op: _op
+                             ,AddUp: AddUp
+                             ,AddDown: AddDown
+                             ,NoOp: NoOp
+                             ,Model: Model
+                             ,view: view
+                             ,init: init
+                             ,update: update
+                             ,inbox: inbox
+                             ,actions: actions
+                             ,model: model
+                             ,main: main};
+};

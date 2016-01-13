@@ -1,0 +1,29 @@
+Elm.First = Elm.First || {};
+Elm.First.make = function (_elm) {
+   "use strict";
+   _elm.First = _elm.First || {};
+   if (_elm.First.values) return _elm.First.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var update = F2(function (action,model) {    var _p0 = action;if (_p0.ctor === "NoOp") {    return model;} else {    return _p0._0;}});
+   var init = "";
+   var view = F2(function (address,model) {    return A2($Html.div,_U.list([]),_U.list([$Html.text($Basics.toString(model))]));});
+   var handShake = Elm.Native.Port.make(_elm).inboundSignal("handShake",
+   "String",
+   function (v) {
+      return typeof v === "string" || typeof v === "object" && v instanceof String ? v : _U.badPort("a string",v);
+   });
+   var FromJs = function (a) {    return {ctor: "FromJs",_0: a};};
+   var NoOp = {ctor: "NoOp"};
+   var inbox = $Signal.mailbox(NoOp);
+   var model = A3($Signal.foldp,update,init,$Signal.mergeMany(_U.list([inbox.signal,A2($Signal.map,FromJs,handShake)])));
+   var main = A2($Signal.map,view(inbox.address),model);
+   return _elm.First.values = {_op: _op,NoOp: NoOp,FromJs: FromJs,view: view,init: init,update: update,inbox: inbox,model: model,main: main};
+};

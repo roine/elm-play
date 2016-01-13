@@ -12,7 +12,6 @@ Elm.Repl.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
    var tsol = {ctor: "_Tuple0"};
-   var entry = {parent: {child: 1}};
-   var deltron3030 = $List.map;
-   return _elm.Repl.values = {_op: _op,deltron3030: deltron3030,entry: entry,tsol: tsol};
+   var deltron3030 = $Signal.map;
+   return _elm.Repl.values = {_op: _op,deltron3030: deltron3030,tsol: tsol};
 };

@@ -1,0 +1,31 @@
+Elm.Second = Elm.Second || {};
+Elm.Second.make = function (_elm) {
+   "use strict";
+   _elm.Second = _elm.Second || {};
+   if (_elm.Second.values) return _elm.Second.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var inbox = $Signal.mailbox("");
+   var update = F2(function (str,model) {    return str;});
+   var init = "";
+   var model = A3($Signal.foldp,update,init,inbox.signal);
+   var isActive = Elm.Native.Port.make(_elm).outboundSignal("isActive",function (v) {    return v;},inbox.signal);
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text("Hello World")
+              ,A2($Html.input,
+              _U.list([A3($Html$Events.on,"input",$Html$Events.targetValue,function (v) {    return A2($Signal.message,address,v);})]),
+              _U.list([]))]));
+   });
+   var main = A2($Signal.map,view(inbox.address),model);
+   return _elm.Second.values = {_op: _op,view: view,init: init,update: update,inbox: inbox,model: model,main: main};
+};

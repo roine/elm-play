@@ -1,0 +1,72 @@
+Elm.Mailbox = Elm.Mailbox || {};
+Elm.Mailbox.make = function (_elm) {
+   "use strict";
+   _elm.Mailbox = _elm.Mailbox || {};
+   if (_elm.Mailbox.values) return _elm.Mailbox.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var init = {str: "Hola",language: "spanish"};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      if (_p0.ctor === "NoOp") {
+            return init;
+         } else {
+            var _p3 = _p0._0;
+            var _p1 = _p3;
+            switch (_p1)
+            {case "spanish": return _U.update(model,{language: _p3,str: "Hola"});
+               case "french": return _U.update(model,{language: _p3,str: "Bonjour"});
+               case "italian": return _U.update(model,{language: _p3,str: "Hola"});
+               case "english": return _U.update(model,{language: _p3,str: "Hello"});
+               default: return _U.crashCase("Mailbox",{start: {line: 49,column: 7},end: {line: 70,column: 35}},_p1)(_p3);}
+         }
+   });
+   var ChangeLanguage = function (a) {    return {ctor: "ChangeLanguage",_0: a};};
+   var NoOp = {ctor: "NoOp"};
+   var inbox = $Signal.mailbox(NoOp);
+   var languageChange = A2($Signal.forwardTo,inbox.address,ChangeLanguage);
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("wrapper")]),
+      _U.list([A2($Html.select,
+              _U.list([A3($Html$Events.on,"change",$Html$Events.targetValue,function (lang) {    return A2($Signal.message,languageChange,lang);})]),
+              _U.list([A2($Html.option,
+                      _U.list([$Html$Attributes.value("french"),$Html$Attributes.selected(_U.eq(model.language,"french"))]),
+                      _U.list([$Html.text("French")]))
+                      ,A2($Html.option,
+                      _U.list([$Html$Attributes.value("spanish"),$Html$Attributes.selected(_U.eq(model.language,"spanish"))]),
+                      _U.list([$Html.text("Spanish")]))
+                      ,A2($Html.option,
+                      _U.list([$Html$Attributes.value("italian"),$Html$Attributes.selected(_U.eq(model.language,"italian"))]),
+                      _U.list([$Html.text("Italian")]))
+                      ,A2($Html.option,
+                      _U.list([$Html$Attributes.value("english"),$Html$Attributes.selected(_U.eq(model.language,"english"))]),
+                      _U.list([$Html.text("English")]))]))
+              ,$Html.text(model.str)
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,languageChange,"french")]),_U.list([$Html.text("French")]))
+              ,$Html.text($Basics.toString(model))]));
+   });
+   var model = A3($Signal.foldp,update,init,inbox.signal);
+   var main = A2($Signal.map,view(inbox.address),model);
+   var Model = F2(function (a,b) {    return {str: a,language: b};});
+   return _elm.Mailbox.values = {_op: _op
+                                ,Model: Model
+                                ,NoOp: NoOp
+                                ,ChangeLanguage: ChangeLanguage
+                                ,view: view
+                                ,languageChange: languageChange
+                                ,init: init
+                                ,update: update
+                                ,model: model
+                                ,inbox: inbox
+                                ,main: main};
+};

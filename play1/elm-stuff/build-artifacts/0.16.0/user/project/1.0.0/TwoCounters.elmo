@@ -1,0 +1,21 @@
+Elm.TwoCounters = Elm.TwoCounters || {};
+Elm.TwoCounters.make = function (_elm) {
+   "use strict";
+   _elm.TwoCounters = _elm.TwoCounters || {};
+   if (_elm.TwoCounters.values) return _elm.TwoCounters.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $MyCounter = Elm.MyCounter.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var view = F2(function (address,model) {
+      return A2($Html.div,_U.list([]),_U.list([A2($MyCounter.view,address,model.top),A2($MyCounter.view,address,model.bottom)]));
+   });
+   var init = {top: 0,bottom: 0};
+   return _elm.TwoCounters.values = {_op: _op,init: init,view: view};
+};

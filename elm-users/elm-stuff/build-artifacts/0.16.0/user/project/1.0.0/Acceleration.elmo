@@ -1,0 +1,36 @@
+Elm.Acceleration = Elm.Acceleration || {};
+Elm.Acceleration.make = function (_elm) {
+   "use strict";
+   _elm.Acceleration = _elm.Acceleration || {};
+   if (_elm.Acceleration.values) return _elm.Acceleration.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Mouse = Elm.Mouse.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Window = Elm.Window.make(_elm);
+   var _op = {};
+   var view = F2(function (_p1,_p0) {
+      var _p2 = _p1;
+      var _p7 = _p2._0;
+      var _p6 = _p2._1;
+      var _p3 = _p0;
+      var _p5 = _p3._1;
+      var _p4 = _p3._0;
+      var distance = F2(function (axis,mouse) {    return $Basics.abs(mouse - (axis / 2 | 0));});
+      var square = function (a) {    return Math.pow(a,2);};
+      var acceleration = $Basics.toString($Basics.round($Basics.sqrt($Basics.toFloat(square(A2(distance,_p7,_p4)) + square(A2(distance,_p6,_p5))))));
+      var side = _U.cmp(_p4,_p7 / 2 | 0) < 0 && _U.cmp(_p5,_p6 / 2 | 0) < 0 ? "top left" : _U.cmp(_p4,_p7 / 2 | 0) > 0 && _U.cmp(_p5,
+      _p6 / 2 | 0) < 0 ? "top right" : _U.cmp(_p4,_p7 / 2 | 0) < 0 && _U.cmp(_p5,_p6 / 2 | 0) > 0 ? "bottom left" : _U.cmp(_p4,_p7 / 2 | 0) > 0 && _U.cmp(_p5,
+      _p6 / 2 | 0) > 0 ? "bottom right" : "no";
+      return $Graphics$Element.show(A2($Basics._op["++"],side,A2($Basics._op["++"]," acceleration is ",acceleration)));
+   });
+   var main = A3($Signal.map2,view,$Window.dimensions,$Mouse.position);
+   var mouseUp = A2($Signal.map,$Basics.not,$Mouse.isDown);
+   var inbox = $Signal.mailbox({text: "nope"});
+   return _elm.Acceleration.values = {_op: _op,inbox: inbox,mouseUp: mouseUp,view: view,main: main};
+};

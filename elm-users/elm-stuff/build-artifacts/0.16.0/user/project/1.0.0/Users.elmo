@@ -1,0 +1,24 @@
+Elm.Users = Elm.Users || {};
+Elm.Users.make = function (_elm) {
+   "use strict";
+   _elm.Users = _elm.Users || {};
+   if (_elm.Users.values) return _elm.Users.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Mouse = Elm.Mouse.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var initialModel = {distance: 0};
+   var update = F2(function (_p0,model) {    return _U.update(model,{distance: model.distance + 1});});
+   var model = A3($Signal.foldp,update,initialModel,$Mouse.position);
+   var pixelsToKm = function (pixels) {    return $Graphics$Element.show($Basics.toString($Basics.toFloat(pixels) * 2.636e-2));};
+   var view = function (model) {    return pixelsToKm(model.distance);};
+   var main = A2($Signal.map,view,model);
+   var Model = function (a) {    return {distance: a};};
+   return _elm.Users.values = {_op: _op,Model: Model,pixelsToKm: pixelsToKm,model: model,update: update,initialModel: initialModel,view: view,main: main};
+};

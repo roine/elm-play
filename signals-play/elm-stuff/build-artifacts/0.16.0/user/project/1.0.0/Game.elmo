@@ -1,0 +1,51 @@
+Elm.Game = Elm.Game || {};
+Elm.Game.make = function (_elm) {
+   "use strict";
+   _elm.Game = _elm.Game || {};
+   if (_elm.Game.values) return _elm.Game.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Color = Elm.Color.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Graphics$Collage = Elm.Graphics.Collage.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var drawShip = F2(function (gameHeight,model) {
+      var padding = 5;
+      var height = 30;
+      return A2($Graphics$Collage.move,
+      {ctor: "_Tuple2",_0: $Basics.toFloat(model.ship.position),_1: height / 2 - gameHeight / 2 + padding},
+      A2($Graphics$Collage.rotate,$Basics.degrees(90),A2($Graphics$Collage.filled,$Color.red,A2($Graphics$Collage.ngon,3,height))));
+   });
+   var drawGame = F2(function (width,height) {    return A2($Graphics$Collage.filled,$Color.lightGrey,A2($Graphics$Collage.rect,width,height));});
+   var view = function (model) {
+      var _p0 = {ctor: "_Tuple2",_0: 800,_1: 500};
+      var w = _p0._0;
+      var h = _p0._1;
+      return A3($Graphics$Collage.collage,w,h,_U.list([A2(drawGame,w,h),A2(drawShip,h,model)]));
+   };
+   var update = F2(function (action,model) {
+      var _p1 = action;
+      var changePosition = function (ship) {    return _U.update(ship,{position: ship.position + _p1._0});};
+      return _U.update(model,{ship: changePosition(model.ship)});
+   });
+   var initModel = {ship: {position: 0,powerLevel: 10,isFiring: false}};
+   var Move = function (a) {    return {ctor: "Move",_0: a};};
+   var Model = function (a) {    return {ship: a};};
+   var Ship = F3(function (a,b,c) {    return {position: a,powerLevel: b,isFiring: c};});
+   var main = view(A2(update,Move(-300),initModel));
+   return _elm.Game.values = {_op: _op
+                             ,main: main
+                             ,Ship: Ship
+                             ,Model: Model
+                             ,Move: Move
+                             ,initModel: initModel
+                             ,update: update
+                             ,view: view
+                             ,drawGame: drawGame
+                             ,drawShip: drawShip};
+};

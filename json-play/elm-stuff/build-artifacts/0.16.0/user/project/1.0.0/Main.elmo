@@ -1,0 +1,29 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var decodeIt = function (str) {
+      return A2($Json$Decode.decodeString,
+      A3($Json$Decode.object2,
+      F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),
+      A2($Json$Decode._op[":="],"firstname",$Json$Decode.string),
+      A2($Json$Decode._op[":="],"lastname",$Json$Decode.string)),
+      str);
+   };
+   var main = function () {
+      var payload = "{\"firstname\":\"jonathan\", \"lastname\": \"de montalembert\"}";
+      return $Html.text($Basics.toString(decodeIt(payload)));
+   }();
+   return _elm.Main.values = {_op: _op,main: main,decodeIt: decodeIt};
+};

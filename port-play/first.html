@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="first.js"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <button onClick="return lol()">Send from JS to ELM</button>
+  <div id="append-here"></div>
+  <script>
+    var el = document.getElementById("app");
+    var firstApp = Elm.embed(Elm.First, el, {handShake: "Nothing"});
+
+    function lol(){
+      firstApp.ports.handShake.send("From js")
+    }
+
+  </script>
+</body>
+</html>
