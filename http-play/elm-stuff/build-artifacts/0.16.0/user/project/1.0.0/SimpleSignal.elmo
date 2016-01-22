@@ -1,0 +1,29 @@
+Elm.SimpleSignal = Elm.SimpleSignal || {};
+Elm.SimpleSignal.make = function (_elm) {
+   "use strict";
+   _elm.SimpleSignal = _elm.SimpleSignal || {};
+   if (_elm.SimpleSignal.values) return _elm.SimpleSignal.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var inbox = $Signal.mailbox("");
+   var view = F2(function (address,lastName) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([A2($Html.div,
+              _U.list([]),
+              _U.list([A2($Html.input,
+              _U.list([A3($Html$Events.on,"input",$Html$Events.targetValue,function (v) {    return A2($Signal.message,address,v);})]),
+              _U.list([]))]))
+              ,A2($Html.div,_U.list([]),_U.list([$Html.text(A2($Basics._op["++"]," Chris",lastName))]))]));
+   });
+   var main = A2($Signal.map,view(inbox.address),inbox.signal);
+   return _elm.SimpleSignal.values = {_op: _op,view: view,inbox: inbox,main: main};
+};

@@ -1,0 +1,64 @@
+Elm.JsonAndHttp = Elm.JsonAndHttp || {};
+Elm.JsonAndHttp.make = function (_elm) {
+   "use strict";
+   _elm.JsonAndHttp = _elm.JsonAndHttp || {};
+   if (_elm.JsonAndHttp.values) return _elm.JsonAndHttp.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Task = Elm.Task.make(_elm);
+   var _op = {};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      if (_p0.ctor === "NoOp") {
+            return model;
+         } else {
+            return _U.update(model,{users: _p0._0,loading: false});
+         }
+   });
+   var render = function (user) {    return A2($Html.div,_U.list([]),_U.list([$Html.text(user.name)]));};
+   var view = F2(function (address,model) {
+      var usersOrLoading = $Basics.not(model.loading) ? A2($List.map,render,model.users) : _U.list([$Html.text("Loading")]);
+      return A2($Html.div,_U.list([$Html$Attributes.$class("container")]),usersOrLoading);
+   });
+   var init = {loading: true,users: _U.list([])};
+   var Model = F2(function (a,b) {    return {loading: a,users: b};});
+   var SetUsers = function (a) {    return {ctor: "SetUsers",_0: a};};
+   var NoOp = {ctor: "NoOp"};
+   var inbox = $Signal.mailbox(NoOp);
+   var model = A3($Signal.foldp,update,init,inbox.signal);
+   var main = A2($Signal.map,view(inbox.address),model);
+   var User = F2(function (a,b) {    return {id: a,name: b};});
+   var users = $Json$Decode.list(A3($Json$Decode.object2,
+   User,
+   A2($Json$Decode._op[":="],"id",$Json$Decode.$int),
+   A2($Json$Decode._op[":="],"name",$Json$Decode.string)));
+   var getUsers = A2($Http.get,users,"http://jsonplaceholder.typicode.com/users");
+   var request = Elm.Native.Task.make(_elm).perform(A2($Task.onError,
+   A2($Task.andThen,getUsers,function (_p1) {    return A2($Signal.send,inbox.address,SetUsers(_p1));}),
+   function (error) {
+      return A2($Signal.send,inbox.address,SetUsers(_U.list([{id: 1,name: $Basics.toString(error)}])));
+   }));
+   return _elm.JsonAndHttp.values = {_op: _op
+                                    ,User: User
+                                    ,NoOp: NoOp
+                                    ,SetUsers: SetUsers
+                                    ,Model: Model
+                                    ,init: init
+                                    ,view: view
+                                    ,render: render
+                                    ,getUsers: getUsers
+                                    ,users: users
+                                    ,update: update
+                                    ,model: model
+                                    ,main: main
+                                    ,inbox: inbox};
+};

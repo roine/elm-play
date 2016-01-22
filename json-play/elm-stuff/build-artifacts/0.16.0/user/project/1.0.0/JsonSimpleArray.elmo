@@ -1,0 +1,19 @@
+Elm.JsonSimpleArray = Elm.JsonSimpleArray || {};
+Elm.JsonSimpleArray.make = function (_elm) {
+   "use strict";
+   _elm.JsonSimpleArray = _elm.JsonSimpleArray || {};
+   if (_elm.JsonSimpleArray.values) return _elm.JsonSimpleArray.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var jsonArrToList = function (arr) {    return A2($Json$Decode.decodeString,$Json$Decode.list($Json$Decode.string),arr);};
+   var main = function () {    var payload = "[\"Bonjour\", \"Hi\"]";return $Html.text($Basics.toString(jsonArrToList(payload)));}();
+   return _elm.JsonSimpleArray.values = {_op: _op,main: main,jsonArrToList: jsonArrToList};
+};

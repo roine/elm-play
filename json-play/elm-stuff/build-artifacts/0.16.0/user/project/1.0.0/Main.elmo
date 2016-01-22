@@ -13,7 +13,8 @@ Elm.Main.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var decodeIt = function (str) {
+   var decodeFirstname = function (str) {    return A2($Json$Decode.decodeString,$Json$Decode.list($Json$Decode.string),str);};
+   var decodeAll = function (str) {
       return A2($Json$Decode.decodeString,
       A3($Json$Decode.object2,
       F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),
@@ -22,8 +23,8 @@ Elm.Main.make = function (_elm) {
       str);
    };
    var main = function () {
-      var payload = "{\"firstname\":\"jonathan\", \"lastname\": \"de montalembert\"}";
-      return $Html.text($Basics.toString(decodeIt(payload)));
+      var payload = "{\"firstname\":\"jonathan\", \"lastname\": \"de montalembert\", \"deep\": {\"deeper\": \"that\'s deep\"}}";
+      return $Html.text(A2($Basics._op["++"],$Basics.toString(decodeAll(payload)),$Basics.toString(decodeFirstname(payload))));
    }();
-   return _elm.Main.values = {_op: _op,main: main,decodeIt: decodeIt};
+   return _elm.Main.values = {_op: _op,main: main,decodeAll: decodeAll,decodeFirstname: decodeFirstname};
 };

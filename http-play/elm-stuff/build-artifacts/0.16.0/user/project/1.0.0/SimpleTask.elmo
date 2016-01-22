@@ -1,0 +1,31 @@
+Elm.SimpleTask = Elm.SimpleTask || {};
+Elm.SimpleTask.make = function (_elm) {
+   "use strict";
+   _elm.SimpleTask = _elm.SimpleTask || {};
+   if (_elm.SimpleTask.values) return _elm.SimpleTask.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Graphics$Element = Elm.Graphics.Element.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Task = Elm.Task.make(_elm),
+   $TaskTutorial = Elm.TaskTutorial.make(_elm);
+   var _op = {};
+   var inbox = $Signal.mailbox(0);
+   var main = A2($Signal.map,$Graphics$Element.show,inbox.signal);
+   var fibonacci = function (n) {    return _U.cmp(n,2) < 1 ? 1 : fibonacci(n - 1) + fibonacci(n - 2);};
+   var getDuration = A2($Task.andThen,
+   $TaskTutorial.getCurrentTime,
+   function (start) {
+      return A2($Task.andThen,
+      $Task.succeed(fibonacci(25)),
+      function (fib) {
+         return A2($Task.andThen,$TaskTutorial.getCurrentTime,function (end) {    return $Task.succeed(end - start);});
+      });
+   });
+   var runner = Elm.Native.Task.make(_elm).perform(A2($Task.andThen,getDuration,$Signal.send(inbox.address)));
+   return _elm.SimpleTask.values = {_op: _op,getDuration: getDuration,fibonacci: fibonacci,inbox: inbox,main: main};
+};

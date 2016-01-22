@@ -1,0 +1,28 @@
+Elm.RouterPlay = Elm.RouterPlay || {};
+Elm.RouterPlay.make = function (_elm) {
+   "use strict";
+   _elm.RouterPlay = _elm.RouterPlay || {};
+   if (_elm.RouterPlay.values) return _elm.RouterPlay.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $RouteParser = Elm.RouteParser.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var main = $Html.text("lol");
+   var UserEdit = function (a) {    return {ctor: "UserEdit",_0: a};};
+   var User = function (a) {    return {ctor: "User",_0: a};};
+   var UserAdd = {ctor: "UserAdd"};
+   var Users = {ctor: "Users"};
+   var Home = {ctor: "Home"};
+   var matchers = _U.list([A2($RouteParser.$static,Home,"/")
+                          ,A2($RouteParser.$static,Users,"/users")
+                          ,A2($RouteParser.$static,UserAdd,"/users/add")
+                          ,A4($RouteParser.dyn1,User,"/users/",$RouteParser.$int,"")
+                          ,A4($RouteParser.dyn1,UserEdit,"/users/",$RouteParser.$int,"/edit")]);
+   return _elm.RouterPlay.values = {_op: _op,Home: Home,Users: Users,UserAdd: UserAdd,User: User,UserEdit: UserEdit,matchers: matchers,main: main};
+};

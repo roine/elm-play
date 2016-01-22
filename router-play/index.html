@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="main.js"></script>
+</head>
+<body>
+
+  <a href="#!/">go to home</a>
+
+  <script>
+    var ElmApp = Elm.fullscreen(Elm.RoutePlay, {route: "/"});
+
+    window.onhashchange = handleRouting
+
+    function handleRouting() {
+      ElmApp.ports.route.send(location.hash.substring(2))
+    }
+
+    handleRouting()
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+Elm.Home = Elm.Home || {};
+Elm.Home.make = function (_elm) {
+   "use strict";
+   _elm.Home = _elm.Home || {};
+   if (_elm.Home.values) return _elm.Home.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $System = Elm.System.make(_elm);
+   var _op = {};
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("container")]),
+      _U.list([A2($Html.button,_U.list([A2($Html$Events.onClick,address,$System.Decrement)]),_U.list([$Html.text("-")]))
+              ,$Html.text($Basics.toString(model.counter))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,$System.Increment)]),_U.list([$Html.text("+")]))
+              ,A2($Html.a,_U.list([$Html$Attributes.href("#!/users/15/edit")]),_U.list([$Html.text("go to edit user 15")]))]));
+   });
+   return _elm.Home.values = {_op: _op,view: view};
+};

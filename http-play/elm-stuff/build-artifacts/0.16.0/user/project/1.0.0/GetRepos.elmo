@@ -1,0 +1,83 @@
+Elm.GetRepos = Elm.GetRepos || {};
+Elm.GetRepos.make = function (_elm) {
+   "use strict";
+   _elm.GetRepos = _elm.GetRepos || {};
+   if (_elm.GetRepos.values) return _elm.GetRepos.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Task = Elm.Task.make(_elm);
+   var _op = {};
+   var query = $Signal.mailbox("");
+   var init = {searchString: "",repos: _U.list([]),max_items: 30};
+   var debug = function (model) {
+      var help = $Debug.log($Basics.toString(model));
+      return $Html.text(A2($Basics._op["++"],
+      $Basics.toString(model),
+      A2($Basics._op["++"]," There are ",A2($Basics._op["++"],$Basics.toString($List.length(model.repos))," items."))));
+   };
+   var prettyRepo = function (repo) {    return A2($Html.li,_U.list([]),_U.list([$Html.text(repo.full_name)]));};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "UpdateSearchString": return _U.update(model,{searchString: _p0._0});
+         default: return _U.update(model,{repos: _p0._0});}
+   });
+   var UpdateReposModel = function (a) {    return {ctor: "UpdateReposModel",_0: a};};
+   var UpdateSearchString = function (a) {    return {ctor: "UpdateSearchString",_0: a};};
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text("Choose a user on github")
+              ,A2($Html.input,
+              _U.list([$Html$Attributes.value(model.searchString)
+                      ,A3($Html$Events.on,"input",$Html$Events.targetValue,function (_p1) {    return A2($Signal.message,address,UpdateSearchString(_p1));})]),
+              _U.list([]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,query.address,model.searchString)]),_U.list([$Html.text("got get it")]))
+              ,debug(model)
+              ,A2($Html.ul,_U.list([]),A2($List.map,prettyRepo,model.repos))]));
+   });
+   var NoOp = {ctor: "NoOp"};
+   var inbox = $Signal.mailbox(NoOp);
+   var model = A3($Signal.foldp,update,init,inbox.signal);
+   var main = A2($Signal.map,view(inbox.address),model);
+   var Model = F3(function (a,b,c) {    return {searchString: a,repos: b,max_items: c};});
+   var Repo = function (a) {    return {full_name: a};};
+   var getRepos = function (query) {
+      var getUrl = function (query) {    return A2($Basics._op["++"],"https://api.github.com/users/",A2($Basics._op["++"],query,"/repos?per_page=100"));};
+      var decoder = $Json$Decode.list(A2($Json$Decode.object1,Repo,A2($Json$Decode._op[":="],"full_name",$Json$Decode.string)));
+      var newQuery = _U.eq(query,"") ? $Task.fail("fail") : $Task.succeed(getUrl(query));
+      return A2($Task.andThen,
+      A2($Task.andThen,newQuery,function (_p2) {    return A2($Task.mapError,$Basics.always("Not Found"),A2($Http.get,decoder,_p2));}),
+      function (response) {
+         return A2($Signal.send,inbox.address,UpdateReposModel(response));
+      });
+   };
+   var request = Elm.Native.Task.make(_elm).performSignal("request",A2($Signal.map,getRepos,query.signal));
+   return _elm.GetRepos.values = {_op: _op
+                                 ,Repo: Repo
+                                 ,Model: Model
+                                 ,main: main
+                                 ,model: model
+                                 ,getRepos: getRepos
+                                 ,NoOp: NoOp
+                                 ,UpdateSearchString: UpdateSearchString
+                                 ,UpdateReposModel: UpdateReposModel
+                                 ,update: update
+                                 ,view: view
+                                 ,prettyRepo: prettyRepo
+                                 ,debug: debug
+                                 ,init: init
+                                 ,inbox: inbox
+                                 ,query: query};
+};

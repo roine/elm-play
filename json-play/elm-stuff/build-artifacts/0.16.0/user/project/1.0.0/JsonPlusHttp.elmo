@@ -1,0 +1,25 @@
+Elm.JsonPlusHttp = Elm.JsonPlusHttp || {};
+Elm.JsonPlusHttp.make = function (_elm) {
+   "use strict";
+   _elm.JsonPlusHttp = _elm.JsonPlusHttp || {};
+   if (_elm.JsonPlusHttp.values) return _elm.JsonPlusHttp.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var users = $Json$Decode.list(A2($Json$Decode.object1,
+   F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),
+   A2($Json$Decode._op[":="],"name",$Json$Decode.string)));
+   var getUsers = A2($Http.get,users,"http://jsonplaceholder.typicode.com/users");
+   var view = function (result) {    return $Html.text($Basics.toString(result));};
+   var result = $Signal.mailbox(_U.list([]));
+   var main = A2($Signal.map,view,result.signal);
+   return _elm.JsonPlusHttp.values = {_op: _op,main: main,result: result,view: view,getUsers: getUsers,users: users};
+};

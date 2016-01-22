@@ -1,0 +1,37 @@
+Elm.System = Elm.System || {};
+Elm.System.make = function (_elm) {
+   "use strict";
+   _elm.System = _elm.System || {};
+   if (_elm.System.values) return _elm.System.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var Increment = {ctor: "Increment"};
+   var Decrement = {ctor: "Decrement"};
+   var UpdateRouteString = function (a) {    return {ctor: "UpdateRouteString",_0: a};};
+   var NoOp = {ctor: "NoOp"};
+   var Model = F3(function (a,b,c) {    return {route: a,counter: b,params: c};});
+   var Loading = {ctor: "Loading"};
+   var UserEdit = function (a) {    return {ctor: "UserEdit",_0: a};};
+   var User = function (a) {    return {ctor: "User",_0: a};};
+   var UserAdd = {ctor: "UserAdd"};
+   var Users = {ctor: "Users"};
+   var Home = {ctor: "Home"};
+   return _elm.System.values = {_op: _op
+                               ,Home: Home
+                               ,Users: Users
+                               ,UserAdd: UserAdd
+                               ,User: User
+                               ,UserEdit: UserEdit
+                               ,Loading: Loading
+                               ,Model: Model
+                               ,NoOp: NoOp
+                               ,UpdateRouteString: UpdateRouteString
+                               ,Decrement: Decrement
+                               ,Increment: Increment};
+};

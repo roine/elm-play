@@ -1,0 +1,78 @@
+Elm.GithubGrab = Elm.GithubGrab || {};
+Elm.GithubGrab.make = function (_elm) {
+   "use strict";
+   _elm.GithubGrab = _elm.GithubGrab || {};
+   if (_elm.GithubGrab.values) return _elm.GithubGrab.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm),
+   $Task = Elm.Task.make(_elm);
+   var _op = {};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "UpdateSearch": return _U.update(model,{strSearch: _p0._0});
+         default: return _U.update(model,{user: _p0._0,strSearch: ""});}
+   });
+   var init = {loading: false,user: {login: "",name: ""},strSearch: ""};
+   var response = $Signal.mailbox({});
+   var request = $Signal.mailbox("");
+   var Model = F3(function (a,b,c) {    return {loading: a,user: b,strSearch: c};});
+   var User = F2(function (a,b) {    return {login: a,name: b};});
+   var userDecoder = A3($Json$Decode.object2,User,A2($Json$Decode._op[":="],"login",$Json$Decode.string),A2($Json$Decode._op[":="],"name",$Json$Decode.string));
+   var Response = function (a) {    return {ctor: "Response",_0: a};};
+   var UpdateSearch = function (a) {    return {ctor: "UpdateSearch",_0: a};};
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("container")]),
+      _U.list([A2($Html.div,_U.list([$Html$Attributes.$class("model")]),_U.list([$Html.text($Basics.toString(model))]))
+              ,A2($Html.input,
+              _U.list([$Html$Attributes.placeholder("type a username, i.e.: roine")
+                      ,$Html$Attributes.value(model.strSearch)
+                      ,A3($Html$Events.on,"input",$Html$Events.targetValue,function (_p1) {    return A2($Signal.message,address,UpdateSearch(_p1));})]),
+              _U.list([]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,request.address,model.strSearch)]),_U.list([$Html.text("search")]))]));
+   });
+   var NoOp = {ctor: "NoOp"};
+   var inbox = $Signal.mailbox(NoOp);
+   var model = A3($Signal.foldp,update,init,inbox.signal);
+   var main = A2($Signal.map,view(inbox.address),model);
+   var getUser = function (username) {
+      var toUrl = _U.cmp($String.length(username),0) > 0 ? $Task.succeed(A2($Basics._op["++"],
+      "https://api.github.com/users/",
+      username)) : $Task.fail("no username");
+      return A2($Task.andThen,
+      A2($Task.andThen,toUrl,function (_p2) {    return A2($Task.mapError,$Basics.always("Not Found"),A2($Http.get,userDecoder,_p2));}),
+      function (_p3) {
+         return A2($Signal.send,inbox.address,Response(_p3));
+      });
+   };
+   var runner = Elm.Native.Task.make(_elm).performSignal("runner",A2($Signal.map,getUser,request.signal));
+   return _elm.GithubGrab.values = {_op: _op
+                                   ,NoOp: NoOp
+                                   ,UpdateSearch: UpdateSearch
+                                   ,Response: Response
+                                   ,User: User
+                                   ,Model: Model
+                                   ,request: request
+                                   ,response: response
+                                   ,main: main
+                                   ,view: view
+                                   ,inbox: inbox
+                                   ,model: model
+                                   ,init: init
+                                   ,update: update
+                                   ,getUser: getUser
+                                   ,userDecoder: userDecoder};
+};

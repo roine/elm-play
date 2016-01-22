@@ -1,0 +1,30 @@
+Elm.JsonSimpleObject = Elm.JsonSimpleObject || {};
+Elm.JsonSimpleObject.make = function (_elm) {
+   "use strict";
+   _elm.JsonSimpleObject = _elm.JsonSimpleObject || {};
+   if (_elm.JsonSimpleObject.values) return _elm.JsonSimpleObject.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var decodeFirstname = function (str) {    return A2($Json$Decode.decodeString,A2($Json$Decode.at,_U.list(["deep","deeper"]),$Json$Decode.string),str);};
+   var decodeAll = function (str) {
+      return A2($Json$Decode.decodeString,
+      A3($Json$Decode.object2,
+      F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),
+      A2($Json$Decode._op[":="],"firstname",$Json$Decode.string),
+      A2($Json$Decode._op[":="],"lastname",$Json$Decode.string)),
+      str);
+   };
+   var main = function () {
+      var payload = "{\"firstname\":\"jonathan\", \"lastname\": \"de montalembert\", \"deep\": {\"deeper\": \"that\'s deep\"}}";
+      return $Html.text(A2($Basics._op["++"],$Basics.toString(decodeAll(payload)),$Basics.toString(decodeFirstname(payload))));
+   }();
+   return _elm.JsonSimpleObject.values = {_op: _op,main: main,decodeAll: decodeAll,decodeFirstname: decodeFirstname};
+};

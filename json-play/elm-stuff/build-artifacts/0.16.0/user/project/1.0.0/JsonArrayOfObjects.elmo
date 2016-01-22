@@ -1,0 +1,80 @@
+Elm.JsonArrayOfObjects = Elm.JsonArrayOfObjects || {};
+Elm.JsonArrayOfObjects.make = function (_elm) {
+   "use strict";
+   _elm.JsonArrayOfObjects = _elm.JsonArrayOfObjects || {};
+   if (_elm.JsonArrayOfObjects.values) return _elm.JsonArrayOfObjects.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var resultDeepToList = function (result) {
+      var _p0 = result;
+      if (_p0.ctor === "Ok") {
+            return _p0._0;
+         } else {
+            return _U.list([{ctor: "_Tuple2",_0: false,_1: _p0._0}]);
+         }
+   };
+   var resultToList = function (result) {
+      var _p1 = result;
+      if (_p1.ctor === "Ok") {
+            return _p1._0;
+         } else {
+            return _U.list([{ctor: "_Tuple2",_0: "error",_1: $Basics.toString(_p1._0)}]);
+         }
+   };
+   var decodeDeep = function (str) {
+      var getDeepStuff = A2($Json$Decode.object1,
+      $Basics.identity,
+      A2($Json$Decode._op[":="],"deep",A2($Json$Decode.object1,$Basics.identity,A2($Json$Decode._op[":="],"deeper",$Json$Decode.string))));
+      return A2($Json$Decode.decodeString,
+      $Json$Decode.list(A3($Json$Decode.object2,
+      F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),
+      A2($Json$Decode._op[":="],"isAwesome",$Json$Decode.bool),
+      getDeepStuff)),
+      str);
+   };
+   var viewHuman$ = function (_p2) {
+      var _p3 = _p2;
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("human"),$Html$Attributes.classList(_U.list([{ctor: "_Tuple2",_0: "is-awesome",_1: _p3._0}]))]),
+      _U.list([A2($Html.div,_U.list([$Html$Attributes.$class("title")]),_U.list([$Html.text(_p3._1)]))]));
+   };
+   var viewHuman = function (_p4) {
+      var _p5 = _p4;
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("human")]),
+      _U.list([A2($Html.div,_U.list([$Html$Attributes.$class("title")]),_U.list([$Html.text(A2($Basics._op["++"],_p5._0,_p5._1))]))]));
+   };
+   var decodeThat = function (payload) {
+      return A2($Json$Decode.decodeString,
+      $Json$Decode.list(A3($Json$Decode.object2,
+      F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),
+      A2($Json$Decode._op[":="],"job",$Json$Decode.string),
+      A2($Json$Decode._op[":="],"name",$Json$Decode.string))),
+      payload);
+   };
+   var main = function () {
+      var anotherPayload = "[{\"isAwesome\": false, \"deep\": {\"deeper\": \"Jon\"}}, {\"isAwesome\": true, \"deep\": {\"deeper\": \"Zhe\"}}]";
+      var payload = "[{\"job\": \"developer\", \"name\": \"Jonathan\"}, {\"job\": \"manager\", \"name\": \"Zhe\"}]";
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("main")]),
+      _U.list([A2($Html.div,_U.list([]),A2($List.map,viewHuman,resultToList(decodeThat(payload))))
+              ,A2($Html.div,_U.list([]),A2($List.map,viewHuman$,resultDeepToList(decodeDeep(anotherPayload))))]));
+   }();
+   return _elm.JsonArrayOfObjects.values = {_op: _op
+                                           ,main: main
+                                           ,decodeThat: decodeThat
+                                           ,viewHuman: viewHuman
+                                           ,viewHuman$: viewHuman$
+                                           ,decodeDeep: decodeDeep
+                                           ,resultToList: resultToList
+                                           ,resultDeepToList: resultDeepToList};
+};
