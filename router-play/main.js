@@ -11432,11 +11432,16 @@ Elm.System.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var Increment = {ctor: "Increment"};
    var Decrement = {ctor: "Decrement"};
+   var Increment = {ctor: "Increment"};
+   var DisplayLol = {ctor: "DisplayLol"};
+   var HomeForward = function (a) {    return {ctor: "HomeForward",_0: a};};
+   var UsersForward = function (a) {    return {ctor: "UsersForward",_0: a};};
    var UpdateRouteString = function (a) {    return {ctor: "UpdateRouteString",_0: a};};
    var NoOp = {ctor: "NoOp"};
-   var Model = F3(function (a,b,c) {    return {route: a,counter: b,params: c};});
+   var Model = F5(function (a,b,c,d,e) {    return {route: a,counter: b,params: c,home: d,users: e};});
+   var Page = {};
+   var UsersState = function (a) {    return {val: a};};
    var Loading = {ctor: "Loading"};
    var UserEdit = function (a) {    return {ctor: "UserEdit",_0: a};};
    var User = function (a) {    return {ctor: "User",_0: a};};
@@ -11450,11 +11455,16 @@ Elm.System.make = function (_elm) {
                                ,User: User
                                ,UserEdit: UserEdit
                                ,Loading: Loading
+                               ,UsersState: UsersState
+                               ,Page: Page
                                ,Model: Model
                                ,NoOp: NoOp
                                ,UpdateRouteString: UpdateRouteString
-                               ,Decrement: Decrement
-                               ,Increment: Increment};
+                               ,UsersForward: UsersForward
+                               ,HomeForward: HomeForward
+                               ,DisplayLol: DisplayLol
+                               ,Increment: Increment
+                               ,Decrement: Decrement};
 };
 Elm.Home = Elm.Home || {};
 Elm.Home.make = function (_elm) {
@@ -11473,6 +11483,15 @@ Elm.Home.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $System = Elm.System.make(_elm);
    var _op = {};
+   var init = {counter: 0};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      if (_p0.ctor === "Increment") {
+            return _U.update(model,{counter: model.counter + 1});
+         } else {
+            return _U.update(model,{counter: model.counter - 1});
+         }
+   });
    var view = F2(function (address,model) {
       return A2($Html.div,
       _U.list([$Html$Attributes.$class("container")]),
@@ -11481,7 +11500,7 @@ Elm.Home.make = function (_elm) {
               ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,$System.Increment)]),_U.list([$Html.text("+")]))
               ,A2($Html.a,_U.list([$Html$Attributes.href("#!/users/15/edit")]),_U.list([$Html.text("go to edit user 15")]))]));
    });
-   return _elm.Home.values = {_op: _op,view: view};
+   return _elm.Home.values = {_op: _op,view: view,update: update,init: init};
 };
 Elm.Users = Elm.Users || {};
 Elm.Users.make = function (_elm) {
@@ -11493,16 +11512,23 @@ Elm.Users.make = function (_elm) {
    $Debug = Elm.Debug.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm);
+   $Signal = Elm.Signal.make(_elm),
+   $System = Elm.System.make(_elm);
    var _op = {};
+   var init = {str: ""};
+   var update = F2(function (action,model) {    var _p0 = action;return _U.update(model,{str: "lol"});});
    var view = F2(function (address,model) {
-      var debugIt = A2($Debug.log,"locale state",model);
-      return A2($Html.div,_U.list([$Html$Attributes.$class("container")]),_U.list([$Html.text("user")]));
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("container")]),
+      _U.list([$Html.text("user")
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,$System.DisplayLol)]),_U.list([]))
+              ,$Html.text($Basics.toString(model.str))]));
    });
-   return _elm.Users.values = {_op: _op,view: view};
+   return _elm.Users.values = {_op: _op,view: view,update: update,init: init};
 };
 Elm.RoutePlay = Elm.RoutePlay || {};
 Elm.RoutePlay.make = function (_elm) {
@@ -11524,14 +11550,14 @@ Elm.RoutePlay.make = function (_elm) {
    $System = Elm.System.make(_elm),
    $Users = Elm.Users.make(_elm);
    var _op = {};
-   var init = {route: "/loading",counter: 0,params: {id: 0}};
+   var init = {route: "/loading",counter: 0,params: {id: 0},users: $Users.init,home: $Home.init};
    var update = F2(function (action,model) {
       var _p0 = action;
       switch (_p0.ctor)
       {case "NoOp": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
          case "UpdateRouteString": return {ctor: "_Tuple2",_0: _U.update(model,{route: _p0._0}),_1: $Effects.none};
-         case "Decrement": return {ctor: "_Tuple2",_0: _U.update(model,{counter: model.counter - 1}),_1: $Effects.none};
-         default: return {ctor: "_Tuple2",_0: _U.update(model,{counter: model.counter + 1}),_1: $Effects.none};}
+         case "UsersForward": return {ctor: "_Tuple2",_0: _U.update(model,{users: A2($Users.update,_p0._0,model.users)}),_1: $Effects.none};
+         default: return {ctor: "_Tuple2",_0: _U.update(model,{home: A2($Home.update,_p0._0,model.home)}),_1: $Effects.none};}
    });
    var matchers = _U.list([A2($RouteParser.$static,$System.Loading,"/loading")
                           ,A2($RouteParser.$static,$System.Home,"/")
@@ -11548,8 +11574,8 @@ Elm.RoutePlay.make = function (_elm) {
          } else {
             switch (_p1._0.ctor)
             {case "Loading": return $Html.text("loading, be patient");
-               case "Home": return A2($Home.view,address,model);
-               case "Users": return bind($Users.view);
+               case "Home": return A2($Home.view,A2($Signal.forwardTo,address,$System.HomeForward),model.home);
+               case "Users": return A2($Users.view,A2($Signal.forwardTo,address,$System.UsersForward),model.users);
                case "UserAdd": return $Html.text("add a user");
                case "User": return $Html.text(A2($Basics._op["++"],"hello user with id: ",$Basics.toString(_p1._0._0)));
                default: return $Html.text(A2($Basics._op["++"],"get user",$Basics.toString(_p1._0._0)));}

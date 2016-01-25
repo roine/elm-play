@@ -4,6 +4,7 @@ import Html.Events exposing (onClick)
 import Html.Attributes exposing (class, href)
 import System exposing (..)
 
+
 view address model=
   div  [class "container"]
     [ button [onClick address Decrement] [text "-"]
@@ -13,3 +14,13 @@ view address model=
     ]
 
 
+update action model =
+    case action of
+        Increment ->
+            {model | counter = model.counter + 1}
+        Decrement ->
+            {model | counter = model.counter - 1}
+
+
+init =
+    { counter = 0 }

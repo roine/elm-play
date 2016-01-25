@@ -1,0 +1,50 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Counter = Elm.Counter.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var init = F2(function (top,bottom) {    return {topCounter: $Counter.init(top),bottomCounter: $Counter.init(bottom)};});
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "Top": return _U.update(model,{topCounter: A2($Counter.update,_p0._0,model.topCounter)});
+         case "Bottom": return _U.update(model,{bottomCounter: A2($Counter.update,_p0._0,model.bottomCounter)});
+         default: return A2(init,0,10);}
+   });
+   var Bottom = function (a) {    return {ctor: "Bottom",_0: a};};
+   var Top = function (a) {    return {ctor: "Top",_0: a};};
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([A2($Counter.view,A2($Signal.forwardTo,address,Top),model.topCounter)
+              ,A2($Counter.view,A2($Signal.forwardTo,address,Bottom),model.bottomCounter)
+              ,$Html.text($Basics.toString(model))]));
+   });
+   var Reset = {ctor: "Reset"};
+   var NoOp = {ctor: "NoOp"};
+   var inbox = $Signal.mailbox(NoOp);
+   var model = A3($Signal.foldp,update,A2(init,0,10),inbox.signal);
+   var main = A2($Signal.map,view(inbox.address),model);
+   return _elm.Main.values = {_op: _op
+                             ,NoOp: NoOp
+                             ,Reset: Reset
+                             ,Top: Top
+                             ,Bottom: Bottom
+                             ,inbox: inbox
+                             ,view: view
+                             ,main: main
+                             ,model: model
+                             ,update: update
+                             ,init: init};
+};
