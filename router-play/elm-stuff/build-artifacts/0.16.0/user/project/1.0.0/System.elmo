@@ -18,25 +18,7 @@ Elm.System.make = function (_elm) {
    var UsersForward = function (a) {    return {ctor: "UsersForward",_0: a};};
    var UpdateRouteString = function (a) {    return {ctor: "UpdateRouteString",_0: a};};
    var NoOp = {ctor: "NoOp"};
-   var Model = F5(function (a,b,c,d,e) {    return {route: a,counter: b,params: c,home: d,users: e};});
-   var Page = {};
-   var UsersState = function (a) {    return {val: a};};
-   var Loading = {ctor: "Loading"};
-   var UserEdit = function (a) {    return {ctor: "UserEdit",_0: a};};
-   var User = function (a) {    return {ctor: "User",_0: a};};
-   var UserAdd = {ctor: "UserAdd"};
-   var Users = {ctor: "Users"};
-   var Home = {ctor: "Home"};
    return _elm.System.values = {_op: _op
-                               ,Home: Home
-                               ,Users: Users
-                               ,UserAdd: UserAdd
-                               ,User: User
-                               ,UserEdit: UserEdit
-                               ,Loading: Loading
-                               ,UsersState: UsersState
-                               ,Page: Page
-                               ,Model: Model
                                ,NoOp: NoOp
                                ,UpdateRouteString: UpdateRouteString
                                ,UsersForward: UsersForward

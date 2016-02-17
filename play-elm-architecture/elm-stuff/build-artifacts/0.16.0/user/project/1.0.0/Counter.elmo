@@ -13,7 +13,7 @@ Elm.Counter.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var init = function (val) {    return val;};
+   var init = 0;
    var update = F2(function (action,model) {
       var _p0 = action;
       switch (_p0.ctor)

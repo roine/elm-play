@@ -1,0 +1,55 @@
+Elm.GifFetcher = Elm.GifFetcher || {};
+Elm.GifFetcher.make = function (_elm) {
+   "use strict";
+   _elm.GifFetcher = _elm.GifFetcher || {};
+   if (_elm.GifFetcher.values) return _elm.GifFetcher.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp = Elm.StartApp.make(_elm),
+   $Task = Elm.Task.make(_elm);
+   var _op = {};
+   var NewUsers = function (a) {    return {ctor: "NewUsers",_0: a};};
+   var getRandomUsers = function () {
+      var decodeUsers = $Json$Decode.list(A2($Json$Decode.object1,$Basics.identity,A2($Json$Decode._op[":="],"username",$Json$Decode.string)));
+      return $Effects.task(A2($Task.map,NewUsers,$Task.toMaybe(A2($Http.get,decodeUsers,"http://jsonplaceholder.typicode.com/users"))));
+   }();
+   var RequestMore = {ctor: "RequestMore"};
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text($Basics.toString(model)),A2($Html.button,_U.list([A2($Html$Events.onClick,address,RequestMore)]),_U.list([$Html.text("hello")]))]));
+   });
+   var Model = function (a) {    return {users: a};};
+   var init = {ctor: "_Tuple2",_0: Model(_U.list([])),_1: getRandomUsers};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      if (_p0.ctor === "RequestMore") {
+            return init;
+         } else {
+            return {ctor: "_Tuple2",_0: Model(A2($Maybe.withDefault,model.users,_p0._0)),_1: $Effects.none};
+         }
+   });
+   var app = $StartApp.start({init: init,update: update,view: view,inputs: _U.list([])});
+   var main = app.html;
+   var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
+   return _elm.GifFetcher.values = {_op: _op
+                                   ,Model: Model
+                                   ,RequestMore: RequestMore
+                                   ,NewUsers: NewUsers
+                                   ,init: init
+                                   ,main: main
+                                   ,app: app
+                                   ,update: update
+                                   ,getRandomUsers: getRandomUsers
+                                   ,view: view};
+};

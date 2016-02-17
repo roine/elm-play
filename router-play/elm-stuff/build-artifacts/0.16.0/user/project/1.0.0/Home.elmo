@@ -12,8 +12,7 @@ Elm.Home.make = function (_elm) {
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm),
-   $System = Elm.System.make(_elm);
+   $Signal = Elm.Signal.make(_elm);
    var _op = {};
    var init = {counter: 0};
    var update = F2(function (action,model) {
@@ -24,13 +23,17 @@ Elm.Home.make = function (_elm) {
             return _U.update(model,{counter: model.counter - 1});
          }
    });
+   var Model = function (a) {    return {counter: a};};
+   var Decrement = {ctor: "Decrement"};
+   var Increment = {ctor: "Increment"};
    var view = F2(function (address,model) {
       return A2($Html.div,
       _U.list([$Html$Attributes.$class("container")]),
-      _U.list([A2($Html.button,_U.list([A2($Html$Events.onClick,address,$System.Decrement)]),_U.list([$Html.text("-")]))
+      _U.list([A2($Html.h1,_U.list([]),_U.list([$Html.text("text is home")]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Decrement)]),_U.list([$Html.text("-")]))
               ,$Html.text($Basics.toString(model.counter))
-              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,$System.Increment)]),_U.list([$Html.text("+")]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Increment)]),_U.list([$Html.text("+")]))
               ,A2($Html.a,_U.list([$Html$Attributes.href("#!/users/15/edit")]),_U.list([$Html.text("go to edit user 15")]))]));
    });
-   return _elm.Home.values = {_op: _op,view: view,update: update,init: init};
+   return _elm.Home.values = {_op: _op,view: view,update: update,init: init,Model: Model};
 };

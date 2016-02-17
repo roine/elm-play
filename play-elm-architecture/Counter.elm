@@ -22,6 +22,6 @@ update action model =
     Increment -> model + 1
     Decrement -> model - 1
 
-init val =
-    val
+init =
+    0
 

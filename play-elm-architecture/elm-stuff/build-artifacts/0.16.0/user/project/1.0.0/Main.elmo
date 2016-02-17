@@ -8,39 +8,63 @@ Elm.Main.make = function (_elm) {
    $Counter = Elm.Counter.make(_elm),
    $Debug = Elm.Debug.make(_elm),
    $Html = Elm.Html.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var init = F2(function (top,bottom) {    return {topCounter: $Counter.init(top),bottomCounter: $Counter.init(bottom)};});
+   var init = {counters: _U.list([]),nextID: 1};
    var update = F2(function (action,model) {
       var _p0 = action;
       switch (_p0.ctor)
       {case "NoOp": return model;
-         case "Top": return _U.update(model,{topCounter: A2($Counter.update,_p0._0,model.topCounter)});
-         case "Bottom": return _U.update(model,{bottomCounter: A2($Counter.update,_p0._0,model.bottomCounter)});
-         default: return A2(init,0,10);}
+         case "AddCounter": return _U.update(model,
+           {counters: A2($Basics._op["++"],model.counters,_U.list([{ctor: "_Tuple2",_0: model.nextID,_1: $Counter.init}])),nextID: model.nextID + 1});
+         case "ActionCounter": var _p5 = _p0._0;
+           var newCounters = function (_p1) {
+              var _p2 = _p1;
+              var _p4 = _p2._0;
+              var _p3 = _p2._1;
+              return _U.eq(_p4,_p5) ? {ctor: "_Tuple2",_0: _p5,_1: A2($Counter.update,_p0._1,_p3)} : {ctor: "_Tuple2",_0: _p4,_1: _p3};
+           };
+           return _U.update(model,{counters: A2($List.map,newCounters,model.counters)});
+         case "Reset": var newCounters = function (_p6) {    var _p7 = _p6;return {ctor: "_Tuple2",_0: _p7._0,_1: $Counter.init};};
+           return _U.update(model,{counters: A2($List.map,newCounters,model.counters)});
+         default: var newCounters = function (_p8) {    var _p9 = _p8;return !_U.eq(_p0._0,_p9._0);};
+           return _U.update(model,{counters: A2($List.filter,newCounters,model.counters)});}
    });
-   var Bottom = function (a) {    return {ctor: "Bottom",_0: a};};
-   var Top = function (a) {    return {ctor: "Top",_0: a};};
+   var Model = F2(function (a,b) {    return {counters: a,nextID: b};});
+   var Remove = function (a) {    return {ctor: "Remove",_0: a};};
+   var Reset = {ctor: "Reset"};
+   var ActionCounter = F2(function (a,b) {    return {ctor: "ActionCounter",_0: a,_1: b};});
+   var AddCounter = {ctor: "AddCounter"};
    var view = F2(function (address,model) {
+      var displayCounter = function (_p10) {
+         var _p11 = _p10;
+         var _p12 = _p11._0;
+         return A2($Html.div,
+         _U.list([]),
+         _U.list([A2($Counter.view,A2($Signal.forwardTo,address,ActionCounter(_p12)),_p11._1)
+                 ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Remove(_p12))]),_U.list([$Html.text("remove")]))]));
+      };
       return A2($Html.div,
       _U.list([]),
-      _U.list([A2($Counter.view,A2($Signal.forwardTo,address,Top),model.topCounter)
-              ,A2($Counter.view,A2($Signal.forwardTo,address,Bottom),model.bottomCounter)
-              ,$Html.text($Basics.toString(model))]));
+      _U.list([A2($Html.button,_U.list([A2($Html$Events.onClick,address,AddCounter)]),_U.list([$Html.text("add counter")]))
+              ,A2($Html.div,_U.list([]),A2($List.map,displayCounter,model.counters))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Reset)]),_U.list([$Html.text("reset values")]))]));
    });
-   var Reset = {ctor: "Reset"};
    var NoOp = {ctor: "NoOp"};
    var inbox = $Signal.mailbox(NoOp);
-   var model = A3($Signal.foldp,update,A2(init,0,10),inbox.signal);
+   var model = A3($Signal.foldp,update,init,inbox.signal);
    var main = A2($Signal.map,view(inbox.address),model);
    return _elm.Main.values = {_op: _op
                              ,NoOp: NoOp
+                             ,AddCounter: AddCounter
+                             ,ActionCounter: ActionCounter
                              ,Reset: Reset
-                             ,Top: Top
-                             ,Bottom: Bottom
+                             ,Remove: Remove
+                             ,Model: Model
                              ,inbox: inbox
                              ,view: view
                              ,main: main

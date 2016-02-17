@@ -15,50 +15,94 @@ Elm.RoutePlay.make = function (_elm) {
    $RouteParser = Elm.RouteParser.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $StartApp = Elm.StartApp.make(_elm),
-   $System = Elm.System.make(_elm),
+   $Task = Elm.Task.make(_elm),
    $Users = Elm.Users.make(_elm);
    var _op = {};
-   var init = {route: "/loading",counter: 0,params: {id: 0},users: $Users.init,home: $Home.init};
-   var update = F2(function (action,model) {
-      var _p0 = action;
-      switch (_p0.ctor)
-      {case "NoOp": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
-         case "UpdateRouteString": return {ctor: "_Tuple2",_0: _U.update(model,{route: _p0._0}),_1: $Effects.none};
-         case "UsersForward": return {ctor: "_Tuple2",_0: _U.update(model,{users: A2($Users.update,_p0._0,model.users)}),_1: $Effects.none};
-         default: return {ctor: "_Tuple2",_0: _U.update(model,{home: A2($Home.update,_p0._0,model.home)}),_1: $Effects.none};}
-   });
-   var matchers = _U.list([A2($RouteParser.$static,$System.Loading,"/loading")
-                          ,A2($RouteParser.$static,$System.Home,"/")
-                          ,A2($RouteParser.$static,$System.Users,"/users")
-                          ,A2($RouteParser.$static,$System.UserAdd,"/users/add")
-                          ,A4($RouteParser.dyn1,$System.User,"/users/",$RouteParser.$int,"")
-                          ,A4($RouteParser.dyn1,$System.UserEdit,"/users/",$RouteParser.$int,"/edit")]);
-   var view = F2(function (address,model) {
-      var bind = function (view) {    return A2(view,address,model);};
-      var debugIt = A2($Debug.log,"model",model);
-      var _p1 = A2($RouteParser.match,matchers,model.route);
-      if (_p1.ctor === "Nothing") {
-            return $Html.text("404");
-         } else {
-            switch (_p1._0.ctor)
-            {case "Loading": return $Html.text("loading, be patient");
-               case "Home": return A2($Home.view,A2($Signal.forwardTo,address,$System.HomeForward),model.home);
-               case "Users": return A2($Users.view,A2($Signal.forwardTo,address,$System.UsersForward),model.users);
-               case "UserAdd": return $Html.text("add a user");
-               case "User": return $Html.text(A2($Basics._op["++"],"hello user with id: ",$Basics.toString(_p1._0._0)));
-               default: return $Html.text(A2($Basics._op["++"],"get user",$Basics.toString(_p1._0._0)));}
-         }
-   });
-   var updateRoute = function (newRoute) {    return A2($RouteParser.match,matchers,newRoute);};
+   var init = {route: "/loading",nextRoute: "",counter: 0,params: {id: 0},usersPage: $Users.init,home: $Home.init,data: _U.list([])};
    var route = Elm.Native.Port.make(_elm).inboundSignal("route",
    "String",
    function (v) {
       return typeof v === "string" || typeof v === "object" && v instanceof String ? v : _U.badPort("a string",v);
    });
+   var Model = F7(function (a,b,c,d,e,f,g) {    return {route: a,nextRoute: b,counter: c,params: d,home: e,usersPage: f,data: g};});
+   var Receiver = function (a) {    return {ctor: "Receiver",_0: a};};
+   var HomeForward = function (a) {    return {ctor: "HomeForward",_0: a};};
+   var UsersForward = function (a) {    return {ctor: "UsersForward",_0: a};};
+   var UpdateRouteString = function (a) {    return {ctor: "UpdateRouteString",_0: a};};
+   var NoOp = {ctor: "NoOp"};
+   var Loading = {ctor: "Loading"};
+   var UserEdit = function (a) {    return {ctor: "UserEdit",_0: a};};
+   var User = function (a) {    return {ctor: "User",_0: a};};
+   var UserAdd = {ctor: "UserAdd"};
+   var Users = {ctor: "Users"};
+   var Home = {ctor: "Home"};
+   var matchers = _U.list([A2($RouteParser.$static,Loading,"/loading")
+                          ,A2($RouteParser.$static,Home,"/")
+                          ,A2($RouteParser.$static,Users,"/users")
+                          ,A2($RouteParser.$static,UserAdd,"/users/add")
+                          ,A4($RouteParser.dyn1,User,"/users/",$RouteParser.$int,"")
+                          ,A4($RouteParser.dyn1,UserEdit,"/users/",$RouteParser.$int,"/edit")]);
+   var viewFor = F3(function (route,address,model) {
+      var _p0 = A2($RouteParser.match,matchers,route);
+      if (_p0.ctor === "Nothing") {
+            return $Html.text("404");
+         } else {
+            switch (_p0._0.ctor)
+            {case "Loading": return $Html.text("loading, be patient");
+               case "Home": return A2($Home.view,A2($Signal.forwardTo,address,HomeForward),model.home);
+               case "Users": return A2($Users.view,A2($Signal.forwardTo,address,UsersForward),model.usersPage);
+               case "UserAdd": return $Html.text("add a user");
+               case "User": return $Html.text(A2($Basics._op["++"],"hello user with id: ",$Basics.toString(_p0._0._0)));
+               default: return $Html.text(A2($Basics._op["++"],"get user",$Basics.toString(_p0._0._0)));}
+         }
+   });
+   var view = F2(function (address,model) {
+      var $yield = function (route) {    return A3(viewFor,route,address,model);};
+      var debugIt = A2($Debug.log,"model",model);
+      return A2($Html.div,_U.list([]),_U.list([$Html.text("header"),$yield(model.route),$Html.text("footer")]));
+   });
+   var bootPage = F2(function (newRoute,model) {
+      var _p1 = A2($RouteParser.match,matchers,newRoute);
+      if (_p1.ctor === "Just" && _p1._0.ctor === "Users") {
+            return {ctor: "_Tuple2",_0: _U.update(model,{nextRoute: newRoute,route: "/loading"}),_1: $Users.bootPage(Receiver)};
+         } else {
+            return {ctor: "_Tuple2",_0: _U.update(model,{route: newRoute}),_1: $Effects.none};
+         }
+   });
+   var update = F2(function (action,model) {
+      var _p2 = action;
+      switch (_p2.ctor)
+      {case "NoOp": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+         case "UpdateRouteString": return A2(bootPage,_p2._0,model);
+         case "UsersForward": return {ctor: "_Tuple2",_0: _U.update(model,{usersPage: A2($Users.update,_p2._0,model.usersPage)}),_1: $Effects.none};
+         case "HomeForward": return {ctor: "_Tuple2",_0: _U.update(model,{home: A2($Home.update,_p2._0,model.home)}),_1: $Effects.none};
+         default: return {ctor: "_Tuple2",_0: _U.update(model,{data: A2($Maybe.withDefault,model.data,_p2._0),route: model.nextRoute}),_1: $Effects.none};}
+   });
    var app = $StartApp.start({init: {ctor: "_Tuple2",_0: init,_1: $Effects.none}
                              ,update: update
                              ,view: view
-                             ,inputs: _U.list([A2($Signal.map,$System.UpdateRouteString,route)])});
+                             ,inputs: _U.list([A2($Signal.map,UpdateRouteString,route)])});
    var main = app.html;
-   return _elm.RoutePlay.values = {_op: _op,matchers: matchers,view: view,update: update,updateRoute: updateRoute,app: app,main: main,init: init};
+   var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
+   return _elm.RoutePlay.values = {_op: _op
+                                  ,Home: Home
+                                  ,Users: Users
+                                  ,UserAdd: UserAdd
+                                  ,User: User
+                                  ,UserEdit: UserEdit
+                                  ,Loading: Loading
+                                  ,NoOp: NoOp
+                                  ,UpdateRouteString: UpdateRouteString
+                                  ,UsersForward: UsersForward
+                                  ,HomeForward: HomeForward
+                                  ,Receiver: Receiver
+                                  ,Model: Model
+                                  ,matchers: matchers
+                                  ,view: view
+                                  ,viewFor: viewFor
+                                  ,update: update
+                                  ,bootPage: bootPage
+                                  ,app: app
+                                  ,main: main
+                                  ,init: init};
 };
