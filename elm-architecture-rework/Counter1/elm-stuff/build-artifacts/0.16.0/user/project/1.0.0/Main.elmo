@@ -1,0 +1,35 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Counter = Elm.Counter.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var init = {counter: $Counter.init};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      if (_p0.ctor === "NoOp") {
+            return model;
+         } else {
+            return _U.update(model,{counter: A2($Counter.update,_p0._0,model.counter)});
+         }
+   });
+   var Model = function (a) {    return {counter: a};};
+   var Counter = function (a) {    return {ctor: "Counter",_0: a};};
+   var view = F2(function (address,model) {
+      return A2($Html.div,_U.list([]),_U.list([A2($Counter.view,A2($Signal.forwardTo,address,Counter),model.counter),$Html.text($Basics.toString(model))]));
+   });
+   var NoOp = {ctor: "NoOp"};
+   var box = $Signal.mailbox(NoOp);
+   var model = A3($Signal.foldp,update,init,box.signal);
+   var main = A2($Signal.map,view(box.address),model);
+   return _elm.Main.values = {_op: _op,NoOp: NoOp,Counter: Counter,Model: Model,update: update,view: view,box: box,init: init,model: model,main: main};
+};

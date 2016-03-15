@@ -1,0 +1,22 @@
+Elm.Components = Elm.Components || {};
+Elm.Components.Text = Elm.Components.Text || {};
+Elm.Components.Text.make = function (_elm) {
+   "use strict";
+   _elm.Components = _elm.Components || {};
+   _elm.Components.Text = _elm.Components.Text || {};
+   if (_elm.Components.Text.values) return _elm.Components.Text.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var view = F2(function (address,conf) {
+      return A2($Html.input,_U.list([$Html$Attributes.type$("text"),$Html$Attributes.placeholder(conf.placeholder)]),_U.list([]));
+   });
+   return _elm.Components.Text.values = {_op: _op,view: view};
+};

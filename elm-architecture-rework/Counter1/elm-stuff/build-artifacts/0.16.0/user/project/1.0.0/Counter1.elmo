@@ -1,0 +1,47 @@
+Elm.Counter1 = Elm.Counter1 || {};
+Elm.Counter1.make = function (_elm) {
+   "use strict";
+   _elm.Counter1 = _elm.Counter1 || {};
+   if (_elm.Counter1.values) return _elm.Counter1.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var init = 0;
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "Increment": return model + 1;
+         default: return model - 1;}
+   });
+   var Decrement = {ctor: "Decrement"};
+   var Increment = {ctor: "Increment"};
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([A2($Html.div,_U.list([]),_U.list([$Html.text($Basics.toString(model))]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Decrement)]),_U.list([$Html.text("-")]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Increment)]),_U.list([$Html.text("+")]))]));
+   });
+   var NoOp = {ctor: "NoOp"};
+   var box = $Signal.mailbox(NoOp);
+   var model = A3($Signal.foldp,update,init,box.signal);
+   var main = A2($Signal.map,view(box.address),model);
+   return _elm.Counter1.values = {_op: _op
+                                 ,NoOp: NoOp
+                                 ,Increment: Increment
+                                 ,Decrement: Decrement
+                                 ,update: update
+                                 ,view: view
+                                 ,box: box
+                                 ,init: init
+                                 ,model: model
+                                 ,main: main};
+};

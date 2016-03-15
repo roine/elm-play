@@ -1,0 +1,70 @@
+Elm.RandomGifViewer = Elm.RandomGifViewer || {};
+Elm.RandomGifViewer.make = function (_elm) {
+   "use strict";
+   _elm.RandomGifViewer = _elm.RandomGifViewer || {};
+   if (_elm.RandomGifViewer.values) return _elm.RandomGifViewer.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Task = Elm.Task.make(_elm);
+   var _op = {};
+   var inputs = _U.list([]);
+   var noFx = function (model) {    return {ctor: "_Tuple2",_0: model,_1: $Effects.none};};
+   var NewUser = function (a) {    return {ctor: "NewUser",_0: a};};
+   var UpdateTopic = function (a) {    return {ctor: "UpdateTopic",_0: a};};
+   var RequestMore = {ctor: "RequestMore"};
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([A2($Html.div,_U.list([]),_U.list([$Html.text($Basics.toString(model))]))
+              ,A2($Html.input,
+              _U.list([A3($Html$Events.on,"input",$Html$Events.targetValue,function (str) {    return A2($Signal.message,address,UpdateTopic(str));})
+                      ,$Html$Attributes.value(model.topic)]),
+              _U.list([]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,RequestMore)]),_U.list([$Html.text("get more")]))
+              ,A2($Html.img,_U.list([$Html$Attributes.src(model.user.avatar_url)]),_U.list([]))]));
+   });
+   var NoOp = {ctor: "NoOp"};
+   var Model = F2(function (a,b) {    return {topic: a,user: b};});
+   var init = noFx(A2(Model,"lol",{avatar_url: "",name: ""}));
+   var User = F2(function (a,b) {    return {avatar_url: a,name: b};});
+   var decodeUrl = A3($Json$Decode.object2,
+   User,
+   A2($Json$Decode._op[":="],"avatar_url",$Json$Decode.string),
+   A2($Json$Decode._op[":="],"name",$Json$Decode.oneOf(_U.list([$Json$Decode.string,$Json$Decode.$null("")]))));
+   var requestGif = function (topic) {
+      return $Effects.task(A2($Task.map,NewUser,$Task.toMaybe(A2($Http.get,decodeUrl,A2($Basics._op["++"],"https://api.github.com/users/",topic)))));
+   };
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return noFx(model);
+         case "UpdateTopic": return noFx(_U.update(model,{topic: _p0._0}));
+         case "RequestMore": return {ctor: "_Tuple2",_0: model,_1: requestGif(model.topic)};
+         default: return noFx(_U.update(model,{user: A2($Maybe.withDefault,model.user,_p0._0)}));}
+   });
+   return _elm.RandomGifViewer.values = {_op: _op
+                                        ,User: User
+                                        ,Model: Model
+                                        ,NoOp: NoOp
+                                        ,RequestMore: RequestMore
+                                        ,UpdateTopic: UpdateTopic
+                                        ,NewUser: NewUser
+                                        ,noFx: noFx
+                                        ,inputs: inputs
+                                        ,view: view
+                                        ,update: update
+                                        ,requestGif: requestGif
+                                        ,decodeUrl: decodeUrl
+                                        ,init: init};
+};

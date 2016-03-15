@@ -1,0 +1,46 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Counter = Elm.Counter.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp$Simple = Elm.StartApp.Simple.make(_elm);
+   var _op = {};
+   var init = {topCounter: $Counter.init,bottomCounter: $Counter.init};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "TopCounter": return _U.update(model,{topCounter: A2($Counter.update,_p0._0,model.topCounter)});
+         default: return _U.update(model,{bottomCounter: A2($Counter.update,_p0._0,model.bottomCounter)});}
+   });
+   var Model = F2(function (a,b) {    return {topCounter: a,bottomCounter: b};});
+   var BottomCounter = function (a) {    return {ctor: "BottomCounter",_0: a};};
+   var TopCounter = function (a) {    return {ctor: "TopCounter",_0: a};};
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([A2($Counter.view,A2($Signal.forwardTo,address,TopCounter),model.topCounter)
+              ,A2($Counter.view,A2($Signal.forwardTo,address,BottomCounter),model.bottomCounter)
+              ,$Html.text($Basics.toString(model))]));
+   });
+   var main = $StartApp$Simple.start({view: view,update: update,model: init});
+   var NoOp = {ctor: "NoOp"};
+   return _elm.Main.values = {_op: _op
+                             ,NoOp: NoOp
+                             ,TopCounter: TopCounter
+                             ,BottomCounter: BottomCounter
+                             ,Model: Model
+                             ,update: update
+                             ,view: view
+                             ,init: init
+                             ,main: main};
+};

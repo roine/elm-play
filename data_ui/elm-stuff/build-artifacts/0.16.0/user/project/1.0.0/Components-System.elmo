@@ -1,0 +1,23 @@
+Elm.Components = Elm.Components || {};
+Elm.Components.System = Elm.Components.System || {};
+Elm.Components.System.make = function (_elm) {
+   "use strict";
+   _elm.Components = _elm.Components || {};
+   _elm.Components.System = _elm.Components.System || {};
+   if (_elm.Components.System.values) return _elm.Components.System.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var Section = F2(function (a,b) {    return {type$: a,components: b};});
+   var Date = F3(function (a,b,c) {    return {type$: a,placeholder: b,path: c};});
+   var Text = F3(function (a,b,c) {    return {type$: a,placeholder: b,path: c};});
+   var S = function (a) {    return {ctor: "S",_0: a};};
+   var D = function (a) {    return {ctor: "D",_0: a};};
+   var T = function (a) {    return {ctor: "T",_0: a};};
+   return _elm.Components.System.values = {_op: _op,T: T,D: D,S: S,Text: Text,Date: Date,Section: Section};
+};

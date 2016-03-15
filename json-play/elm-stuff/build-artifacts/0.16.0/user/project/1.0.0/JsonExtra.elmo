@@ -1,0 +1,41 @@
+Elm.JsonExtra = Elm.JsonExtra || {};
+Elm.JsonExtra.make = function (_elm) {
+   "use strict";
+   _elm.JsonExtra = _elm.JsonExtra || {};
+   if (_elm.JsonExtra.values) return _elm.JsonExtra.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var resultToList = function (result) {
+      var _p0 = result;
+      if (_p0.ctor === "Ok") {
+            return _p0._0;
+         } else {
+            return _U.list([{ctor: "_Tuple2",_0: "error",_1: $Basics.toString(_p0._0)}]);
+         }
+   };
+   var decodeThat = function (payload) {
+      return A2($Json$Decode.decodeString,
+      $Json$Decode.list(A3($Json$Decode.object2,
+      F2(function (v0,v1) {    return {ctor: "_Tuple2",_0: v0,_1: v1};}),
+      A2($Json$Decode._op[":="],"job",$Json$Decode.string),
+      A2($Json$Decode._op[":="],"name",$Json$Decode.string))),
+      payload);
+   };
+   var main = function () {
+      var anotherPayload = "[{\"isAwesome\": false, \"deep\": {\"deeper\": \"Jon\"}}, {\"isAwesome\": true, \"deep\": {\"deeper\": \"Zhe\"}}]";
+      var payload = "[{\"job\": \"developer\", \"name\": \"Jonathan\"}, {\"job\": \"manager\", \"name\": \"Zhe\"}]";
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("main")]),
+      _U.list([A2($Html.div,_U.list([]),_U.list([$Html.text($Basics.toString(resultToList(decodeThat(payload))))]))]));
+   }();
+   return _elm.JsonExtra.values = {_op: _op,main: main,decodeThat: decodeThat,resultToList: resultToList};
+};

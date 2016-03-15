@@ -1,0 +1,81 @@
+Elm.Rendering = Elm.Rendering || {};
+Elm.Rendering.make = function (_elm) {
+   "use strict";
+   _elm.Rendering = _elm.Rendering || {};
+   if (_elm.Rendering.values) return _elm.Rendering.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Components$Date = Elm.Components.Date.make(_elm),
+   $Components$Section = Elm.Components.Section.make(_elm),
+   $Components$System = Elm.Components.System.make(_elm),
+   $Components$Text = Elm.Components.Text.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp = Elm.StartApp.make(_elm);
+   var _op = {};
+   var update = F2(function (action,model) {    var _p0 = action;return {ctor: "_Tuple2",_0: model,_1: $Effects.none};});
+   var initialComponents$ = {components: _U.list([$Components$System.T({type$: "text"
+                                                                       ,placeholder: "my text"
+                                                                       ,path: _U.list(["v1_report"
+                                                                                      ,"adverse_event_details"
+                                                                                      ,"event_details_fieldset"
+                                                                                      ,"start_date"])})
+                                                 ,$Components$System.D({type$: "date"
+                                                                       ,placeholder: "My Date"
+                                                                       ,path: _U.list(["v1_report"
+                                                                                      ,"adverse_event_details"
+                                                                                      ,"event_details_fieldset"
+                                                                                      ,"company_aware_date"])})
+                                                 ,$Components$System.D({type$: "date"
+                                                                       ,placeholder: "My Date"
+                                                                       ,path: _U.list(["v1_report"
+                                                                                      ,"adverse_event_details"
+                                                                                      ,"event_details_fieldset"
+                                                                                      ,"adverse_event_description"])})
+                                                 ,$Components$System.S({type$: "section"
+                                                                       ,components: _U.list([$Components$System.T({type$: "text"
+                                                                                                                  ,placeholder: "Nested"
+                                                                                                                  ,path: _U.list(["v1_report"
+                                                                                                                                 ,"adverse_event_details"
+                                                                                                                                 ,"event_details_fieldset"
+                                                                                                                                 ,"start_date"])})
+                                                                                            ,$Components$System.S({type$: "section"
+                                                                                                                  ,components: _U.list([$Components$System.T({type$: "text"
+                                                                                                                                                             ,placeholder: "Nested"
+                                                                                                                                                             ,path: _U.list(["v1_report"
+                                                                                                                                                                            ,"adverse_event_details"
+                                                                                                                                                                            ,"event_details_fieldset"
+                                                                                                                                                                            ,"start_date"])})])})])})])};
+   var renderComponent = F2(function (address,component) {
+      var _p1 = component;
+      switch (_p1.ctor)
+      {case "T": return A2($Components$Text.view,address,_p1._0);
+         case "D": return A2($Components$Date.view,address,_p1._0);
+         default: return A2($Components$Section.view,address,_p1._0);}
+   });
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text($Basics.toString(model)),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),model.configuration.components))]));
+   });
+   var Model = function (a) {    return {configuration: a};};
+   var init = {ctor: "_Tuple2",_0: Model(initialComponents$),_1: $Effects.none};
+   var app = $StartApp.start({view: view,update: update,init: init,inputs: _U.list([])});
+   var main = app.html;
+   var NoOp = {ctor: "NoOp"};
+   return _elm.Rendering.values = {_op: _op
+                                  ,NoOp: NoOp
+                                  ,Model: Model
+                                  ,app: app
+                                  ,main: main
+                                  ,renderComponent: renderComponent
+                                  ,view: view
+                                  ,initialComponents$: initialComponents$
+                                  ,init: init
+                                  ,update: update};
+};

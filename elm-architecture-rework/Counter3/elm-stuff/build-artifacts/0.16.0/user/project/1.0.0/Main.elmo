@@ -1,0 +1,48 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values) return _elm.Main.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Counter = Elm.Counter.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp$Simple = Elm.StartApp.Simple.make(_elm);
+   var _op = {};
+   var init = {counters: _U.list([]),nextID: 0};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "Counter": var updateCounter = function (_p1) {
+              var _p2 = _p1;
+              var _p4 = _p2._1;
+              var _p3 = _p2._0;
+              return _U.eq(_p3,_p0._0) ? {ctor: "_Tuple2",_0: _p3,_1: A2($Counter.update,_p0._1,_p4)} : {ctor: "_Tuple2",_0: _p3,_1: _p4};
+           };
+           return _U.update(model,{counters: A2($List.map,updateCounter,model.counters)});
+         case "Reset": return _U.update(model,{counters: _U.list([]),nextID: 0});
+         default: return _U.update(model,
+           {counters: A2($List._op["::"],{ctor: "_Tuple2",_0: model.nextID,_1: $Counter.init},model.counters),nextID: model.nextID + 1});}
+   });
+   var Model = F2(function (a,b) {    return {counters: a,nextID: b};});
+   var Reset = {ctor: "Reset"};
+   var Counter = F2(function (a,b) {    return {ctor: "Counter",_0: a,_1: b};});
+   var AddCounter = {ctor: "AddCounter"};
+   var view = F2(function (address,model) {
+      var renderCounter = function (_p5) {    var _p6 = _p5;return A2($Counter.view,A2($Signal.forwardTo,address,Counter(_p6._0)),_p6._1);};
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([A2($Html.button,_U.list([A2($Html$Events.onClick,address,AddCounter)]),_U.list([$Html.text("addCounter")]))
+              ,A2($Html.button,_U.list([A2($Html$Events.onClick,address,Reset)]),_U.list([$Html.text("reset")]))
+              ,A2($Html.div,_U.list([]),A2($List.map,renderCounter,model.counters))
+              ,$Html.text($Basics.toString(model))]));
+   });
+   var main = $StartApp$Simple.start({view: view,model: init,update: update});
+   return _elm.Main.values = {_op: _op,AddCounter: AddCounter,Counter: Counter,Reset: Reset,Model: Model,main: main,update: update,view: view,init: init};
+};
