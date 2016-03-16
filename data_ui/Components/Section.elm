@@ -18,8 +18,14 @@ view address model =
 
 
 renderComponent address component =
-  --text (toString component)
   case component of
-    T t -> Components.Text.view address t
-    D d -> Components.Date.view address d
-    S s -> view address s
+    TagsInput t -> Components.Text.view address t
+    Fieldset t -> Components.Text.view address t
+    Grid t -> Components.Text.view address t
+    Toggle t -> Components.Text.view address t
+    Text t -> Components.Text.view address t
+    DatePicker t -> Components.Date.view address t
+    TextArea t -> Components.Text.view address t
+    RadioButtons t -> Components.Text.view address t
+    Number t -> Components.Text.view address t
+    Select t -> Components.Text.view address t

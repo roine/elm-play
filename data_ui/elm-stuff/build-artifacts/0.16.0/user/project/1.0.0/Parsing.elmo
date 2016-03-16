@@ -1,0 +1,55 @@
+Elm.Parsing = Elm.Parsing || {};
+Elm.Parsing.make = function (_elm) {
+   "use strict";
+   _elm.Parsing = _elm.Parsing || {};
+   if (_elm.Parsing.values) return _elm.Parsing.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp = Elm.StartApp.make(_elm),
+   $Task = Elm.Task.make(_elm);
+   var _op = {};
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      if (_p0.ctor === "NoOp") {
+            return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+         } else {
+            return {ctor: "_Tuple2",_0: _U.update(model,{configuration: A2($Maybe.withDefault,model.configuration,_p0._0)}),_1: $Effects.none};
+         }
+   });
+   var view = F2(function (address,model) {    return A2($Html.div,_U.list([]),_U.list([$Html.text("bonjour"),$Html.text($Basics.toString(model))]));});
+   var AddConfiguration = function (a) {    return {ctor: "AddConfiguration",_0: a};};
+   var NoOp = {ctor: "NoOp"};
+   var Configuration = F2(function (a,b) {    return {path_name: a,label: b};});
+   var decodeConfiguration = A2($Json$Decode.object1,
+   $Basics.identity,
+   A2($Json$Decode.at,
+   _U.list(["result","configuration"]),
+   A3($Json$Decode.object2,Configuration,A2($Json$Decode._op[":="],"path_name",$Json$Decode.string),A2($Json$Decode._op[":="],"label",$Json$Decode.string))));
+   var fetchConfiguration = $Effects.task(A2($Task.map,AddConfiguration,$Task.toMaybe(A2($Http.get,decodeConfiguration,"/configuration.json"))));
+   var Model = function (a) {    return {configuration: a};};
+   var init = {ctor: "_Tuple2",_0: Model({path_name: "",label: ""}),_1: fetchConfiguration};
+   var app = $StartApp.start({update: update,view: view,init: init,inputs: _U.list([])});
+   var main = app.html;
+   var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
+   return _elm.Parsing.values = {_op: _op
+                                ,Model: Model
+                                ,Configuration: Configuration
+                                ,NoOp: NoOp
+                                ,AddConfiguration: AddConfiguration
+                                ,app: app
+                                ,main: main
+                                ,init: init
+                                ,view: view
+                                ,update: update
+                                ,fetchConfiguration: fetchConfiguration
+                                ,decodeConfiguration: decodeConfiguration};
+};

@@ -571,6 +571,7 @@
                                "names_grid"
                             ],
                             "type":"Grid",
+                            "position": 1,
                             "components":[  
                                {  
                                   "path_name":"first_name",
@@ -1046,63 +1047,24 @@
              }
           ]
        },
-       "initial_data":{  
-          "v1_report":{  
-             "adverse_event_details":{  
-                "event_details_fieldset":{  
-                   "adverse_event_description":null,
-                   "start_date":null,
-                   "company_aware_date":null
-                },
-                "event_picker_fieldset":{  
-                   "names":[  
-
-                   ]
-                }
-             },
-             "patient_details":{  
-                "personal_data_grid":{  
-                   "gender":null,
-                   "initials":null
-                },
-                "birth_date_grid":{  
-                   "birth_date":null,
-                   "birth_date_known":null
-                },
-                "age_grid":{  
-                   "age":null,
-                   "age_unit":"years"
-                }
-             },
-             "reporter_details":{  
-                "consent_to_contact":null,
-                "reporter_details_fieldset":{  
-                   "address_line_2":null,
-                   "telephone_number":null,
-                   "address_grid":{  
-                      "town":null,
-                      "county":null
-                   },
-                   "zip_country_grid":{  
-                      "country":null,
-                      "postcode":null
-                   },
-                   "email_address":null,
-                   "address_line_1":null
-                },
-                "personal_information_fieldset":{  
-                   "names_grid":{  
-                      "first_name":null,
-                      "surname":null
-                   }
-                }
-             },
-             "products_involved":{  
-                "names":[  
-
-                ]
-             }
-          }
-       }
+       "initial_data": [
+        { "path": [  
+            "v1_report",
+            "reporter_details",
+            "reporter_details_fieldset",
+            "address_grid",
+            "town"
+        ], 
+         "value" : "Jonestown"
+       },
+       { "path":[  
+          "v1_report",
+          "patient_details",
+          "age_grid",
+          "age"
+        ],
+        "value": "25"
+      }
+      ]
     }
  }

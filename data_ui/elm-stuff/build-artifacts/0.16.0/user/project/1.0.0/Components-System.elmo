@@ -13,11 +13,331 @@ Elm.Components.System.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var Section = F2(function (a,b) {    return {type$: a,components: b};});
-   var Date = F3(function (a,b,c) {    return {type$: a,placeholder: b,path: c};});
-   var Text = F3(function (a,b,c) {    return {type$: a,placeholder: b,path: c};});
-   var S = function (a) {    return {ctor: "S",_0: a};};
-   var D = function (a) {    return {ctor: "D",_0: a};};
-   var T = function (a) {    return {ctor: "T",_0: a};};
-   return _elm.Components.System.values = {_op: _op,T: T,D: D,S: S,Text: Text,Date: Date,Section: Section};
+   var Select = function (a) {    return {ctor: "Select",_0: a};};
+   var Number = function (a) {    return {ctor: "Number",_0: a};};
+   var RadioButtons = function (a) {    return {ctor: "RadioButtons",_0: a};};
+   var TextArea = function (a) {    return {ctor: "TextArea",_0: a};};
+   var DatePicker = function (a) {    return {ctor: "DatePicker",_0: a};};
+   var Text = function (a) {    return {ctor: "Text",_0: a};};
+   var Toggle = function (a) {    return {ctor: "Toggle",_0: a};};
+   var Grid = function (a) {    return {ctor: "Grid",_0: a};};
+   var Fieldset = function (a) {    return {ctor: "Fieldset",_0: a};};
+   var TagsInput = function (a) {    return {ctor: "TagsInput",_0: a};};
+   var ComponentSelect = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return function (l) {
+                                       return function (m) {
+                                          return {path_name: a
+                                                 ,short_name: b
+                                                 ,path: c
+                                                 ,position: d
+                                                 ,type$: e
+                                                 ,label_inside_input: f
+                                                 ,repository: g
+                                                 ,validation: h
+                                                 ,label: i
+                                                 ,label_visible: j
+                                                 ,placeholder_label: k
+                                                 ,default_value: l
+                                                 ,options: m};
+                                       };
+                                    };
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentNumber = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return {path_name: a
+                                           ,short_name: b
+                                           ,path: c
+                                           ,position: d
+                                           ,type$: e
+                                           ,label_inside_input: f
+                                           ,repository: g
+                                           ,validation: h
+                                           ,label: i
+                                           ,label_visible: j
+                                           ,placeholder_label: k};
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentRadioButtons = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return function (l) {
+                                       return {path_name: a
+                                              ,short_name: b
+                                              ,path: c
+                                              ,position: d
+                                              ,type$: e
+                                              ,label_inside_input: f
+                                              ,repository: g
+                                              ,validation: h
+                                              ,label: i
+                                              ,label_visible: j
+                                              ,placeholder_label: k
+                                              ,options: l};
+                                    };
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentTextArea = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return {path_name: a
+                                           ,short_name: b
+                                           ,path: c
+                                           ,position: d
+                                           ,type$: e
+                                           ,label_inside_input: f
+                                           ,repository: g
+                                           ,validation: h
+                                           ,label: i
+                                           ,label_visible: j
+                                           ,placeholder_label: k};
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentDatePicker = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return {path_name: a
+                                        ,short_name: b
+                                        ,path: c
+                                        ,position: d
+                                        ,type$: e
+                                        ,label_inside_input: f
+                                        ,repository: g
+                                        ,validation: h
+                                        ,label: i
+                                        ,label_visible: j};
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentText = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return {path_name: a
+                                           ,short_name: b
+                                           ,path: c
+                                           ,position: d
+                                           ,type$: e
+                                           ,label_inside_input: f
+                                           ,repository: g
+                                           ,validation: h
+                                           ,label: i
+                                           ,label_visible: j
+                                           ,placeholder_label: k};
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentTagsInput = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return function (l) {
+                                       return {path_name: a
+                                              ,short_name: b
+                                              ,path: c
+                                              ,position: d
+                                              ,type$: e
+                                              ,label_inside_input: f
+                                              ,repository: g
+                                              ,validation: h
+                                              ,label: i
+                                              ,label_visible: j
+                                              ,placeholder_label: k
+                                              ,add_button_label: l};
+                                    };
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentToggle = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return function (l) {
+                                       return {path_name: a
+                                              ,short_name: b
+                                              ,path: c
+                                              ,position: d
+                                              ,type$: e
+                                              ,label_inside_input: f
+                                              ,repository: g
+                                              ,validation: h
+                                              ,label: i
+                                              ,label_visible: j
+                                              ,placeholder_label: k
+                                              ,options: l};
+                                    };
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentGrid = F6(function (a,b,c,d,e,f) {    return {path_name: a,short_name: b,path: c,position: d,type$: e,components: f};});
+   var ComponentFieldset = F8(function (a,b,c,d,e,f,g,h) {
+      return {path_name: a,short_name: b,path: c,position: d,type$: e,label: f,label_visible: g,components: h};
+   });
+   var ComponentBase = F5(function (a,b,c,d,e) {    return {path_name: a,short_name: b,path: c,position: d,type$: e};});
+   var ValueLabel = F2(function (a,b) {    return {label: a,value: b};});
+   var Validation = F9(function (a,b,c,d,e,f,g,h,i) {
+      return {path_name: a,short_name: b,required: c,maxlength: d,format: e,min: f,max: g,scope: h,type$: i};
+   });
+   var Repository = F4(function (a,b,c,d) {    return {path_name: a,path: b,class_name: c,short_name: d};});
+   var Section = F7(function (a,b,c,d,e,f,g) {    return {path_name: a,label: b,short_name: c,path: d,template: e,position: f,components: g};});
+   var Datum = F2(function (a,b) {    return {path: a,value: b};});
+   var Configuration = F5(function (a,b,c,d,e) {    return {path_name: a,short_name: b,label: c,path: d,sections: e};});
+   return _elm.Components.System.values = {_op: _op
+                                          ,Configuration: Configuration
+                                          ,Datum: Datum
+                                          ,Section: Section
+                                          ,Repository: Repository
+                                          ,Validation: Validation
+                                          ,ValueLabel: ValueLabel
+                                          ,ComponentBase: ComponentBase
+                                          ,ComponentFieldset: ComponentFieldset
+                                          ,ComponentGrid: ComponentGrid
+                                          ,ComponentToggle: ComponentToggle
+                                          ,ComponentTagsInput: ComponentTagsInput
+                                          ,ComponentText: ComponentText
+                                          ,ComponentDatePicker: ComponentDatePicker
+                                          ,ComponentTextArea: ComponentTextArea
+                                          ,ComponentRadioButtons: ComponentRadioButtons
+                                          ,ComponentNumber: ComponentNumber
+                                          ,ComponentSelect: ComponentSelect
+                                          ,TagsInput: TagsInput
+                                          ,Fieldset: Fieldset
+                                          ,Grid: Grid
+                                          ,Toggle: Toggle
+                                          ,Text: Text
+                                          ,DatePicker: DatePicker
+                                          ,TextArea: TextArea
+                                          ,RadioButtons: RadioButtons
+                                          ,Number: Number
+                                          ,Select: Select};
 };

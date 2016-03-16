@@ -10568,6 +10568,231 @@ Elm.Html.make = function (_elm) {
                              ,menuitem: menuitem
                              ,menu: menu};
 };
+Elm.Html = Elm.Html || {};
+Elm.Html.Attributes = Elm.Html.Attributes || {};
+Elm.Html.Attributes.make = function (_elm) {
+   "use strict";
+   _elm.Html = _elm.Html || {};
+   _elm.Html.Attributes = _elm.Html.Attributes || {};
+   if (_elm.Html.Attributes.values) return _elm.Html.Attributes.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Json$Encode = Elm.Json.Encode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm),
+   $VirtualDom = Elm.VirtualDom.make(_elm);
+   var _op = {};
+   var attribute = $VirtualDom.attribute;
+   var contextmenu = function (value) {    return A2(attribute,"contextmenu",value);};
+   var property = $VirtualDom.property;
+   var stringProperty = F2(function (name,string) {    return A2(property,name,$Json$Encode.string(string));});
+   var $class = function (name) {    return A2(stringProperty,"className",name);};
+   var id = function (name) {    return A2(stringProperty,"id",name);};
+   var title = function (name) {    return A2(stringProperty,"title",name);};
+   var accesskey = function ($char) {    return A2(stringProperty,"accessKey",$String.fromChar($char));};
+   var dir = function (value) {    return A2(stringProperty,"dir",value);};
+   var draggable = function (value) {    return A2(stringProperty,"draggable",value);};
+   var dropzone = function (value) {    return A2(stringProperty,"dropzone",value);};
+   var itemprop = function (value) {    return A2(stringProperty,"itemprop",value);};
+   var lang = function (value) {    return A2(stringProperty,"lang",value);};
+   var tabindex = function (n) {    return A2(stringProperty,"tabIndex",$Basics.toString(n));};
+   var charset = function (value) {    return A2(stringProperty,"charset",value);};
+   var content = function (value) {    return A2(stringProperty,"content",value);};
+   var httpEquiv = function (value) {    return A2(stringProperty,"httpEquiv",value);};
+   var language = function (value) {    return A2(stringProperty,"language",value);};
+   var src = function (value) {    return A2(stringProperty,"src",value);};
+   var height = function (value) {    return A2(stringProperty,"height",$Basics.toString(value));};
+   var width = function (value) {    return A2(stringProperty,"width",$Basics.toString(value));};
+   var alt = function (value) {    return A2(stringProperty,"alt",value);};
+   var preload = function (value) {    return A2(stringProperty,"preload",value);};
+   var poster = function (value) {    return A2(stringProperty,"poster",value);};
+   var kind = function (value) {    return A2(stringProperty,"kind",value);};
+   var srclang = function (value) {    return A2(stringProperty,"srclang",value);};
+   var sandbox = function (value) {    return A2(stringProperty,"sandbox",value);};
+   var srcdoc = function (value) {    return A2(stringProperty,"srcdoc",value);};
+   var type$ = function (value) {    return A2(stringProperty,"type",value);};
+   var value = function (value) {    return A2(stringProperty,"value",value);};
+   var placeholder = function (value) {    return A2(stringProperty,"placeholder",value);};
+   var accept = function (value) {    return A2(stringProperty,"accept",value);};
+   var acceptCharset = function (value) {    return A2(stringProperty,"acceptCharset",value);};
+   var action = function (value) {    return A2(stringProperty,"action",value);};
+   var autocomplete = function (bool) {    return A2(stringProperty,"autocomplete",bool ? "on" : "off");};
+   var autosave = function (value) {    return A2(stringProperty,"autosave",value);};
+   var enctype = function (value) {    return A2(stringProperty,"enctype",value);};
+   var formaction = function (value) {    return A2(stringProperty,"formAction",value);};
+   var list = function (value) {    return A2(stringProperty,"list",value);};
+   var minlength = function (n) {    return A2(stringProperty,"minLength",$Basics.toString(n));};
+   var maxlength = function (n) {    return A2(stringProperty,"maxLength",$Basics.toString(n));};
+   var method = function (value) {    return A2(stringProperty,"method",value);};
+   var name = function (value) {    return A2(stringProperty,"name",value);};
+   var pattern = function (value) {    return A2(stringProperty,"pattern",value);};
+   var size = function (n) {    return A2(stringProperty,"size",$Basics.toString(n));};
+   var $for = function (value) {    return A2(stringProperty,"htmlFor",value);};
+   var form = function (value) {    return A2(stringProperty,"form",value);};
+   var max = function (value) {    return A2(stringProperty,"max",value);};
+   var min = function (value) {    return A2(stringProperty,"min",value);};
+   var step = function (n) {    return A2(stringProperty,"step",n);};
+   var cols = function (n) {    return A2(stringProperty,"cols",$Basics.toString(n));};
+   var rows = function (n) {    return A2(stringProperty,"rows",$Basics.toString(n));};
+   var wrap = function (value) {    return A2(stringProperty,"wrap",value);};
+   var usemap = function (value) {    return A2(stringProperty,"useMap",value);};
+   var shape = function (value) {    return A2(stringProperty,"shape",value);};
+   var coords = function (value) {    return A2(stringProperty,"coords",value);};
+   var challenge = function (value) {    return A2(stringProperty,"challenge",value);};
+   var keytype = function (value) {    return A2(stringProperty,"keytype",value);};
+   var align = function (value) {    return A2(stringProperty,"align",value);};
+   var cite = function (value) {    return A2(stringProperty,"cite",value);};
+   var href = function (value) {    return A2(stringProperty,"href",value);};
+   var target = function (value) {    return A2(stringProperty,"target",value);};
+   var downloadAs = function (value) {    return A2(stringProperty,"download",value);};
+   var hreflang = function (value) {    return A2(stringProperty,"hreflang",value);};
+   var media = function (value) {    return A2(stringProperty,"media",value);};
+   var ping = function (value) {    return A2(stringProperty,"ping",value);};
+   var rel = function (value) {    return A2(stringProperty,"rel",value);};
+   var datetime = function (value) {    return A2(stringProperty,"datetime",value);};
+   var pubdate = function (value) {    return A2(stringProperty,"pubdate",value);};
+   var start = function (n) {    return A2(stringProperty,"start",$Basics.toString(n));};
+   var colspan = function (n) {    return A2(stringProperty,"colSpan",$Basics.toString(n));};
+   var headers = function (value) {    return A2(stringProperty,"headers",value);};
+   var rowspan = function (n) {    return A2(stringProperty,"rowSpan",$Basics.toString(n));};
+   var scope = function (value) {    return A2(stringProperty,"scope",value);};
+   var manifest = function (value) {    return A2(stringProperty,"manifest",value);};
+   var boolProperty = F2(function (name,bool) {    return A2(property,name,$Json$Encode.bool(bool));});
+   var hidden = function (bool) {    return A2(boolProperty,"hidden",bool);};
+   var contenteditable = function (bool) {    return A2(boolProperty,"contentEditable",bool);};
+   var spellcheck = function (bool) {    return A2(boolProperty,"spellcheck",bool);};
+   var async = function (bool) {    return A2(boolProperty,"async",bool);};
+   var defer = function (bool) {    return A2(boolProperty,"defer",bool);};
+   var scoped = function (bool) {    return A2(boolProperty,"scoped",bool);};
+   var autoplay = function (bool) {    return A2(boolProperty,"autoplay",bool);};
+   var controls = function (bool) {    return A2(boolProperty,"controls",bool);};
+   var loop = function (bool) {    return A2(boolProperty,"loop",bool);};
+   var $default = function (bool) {    return A2(boolProperty,"default",bool);};
+   var seamless = function (bool) {    return A2(boolProperty,"seamless",bool);};
+   var checked = function (bool) {    return A2(boolProperty,"checked",bool);};
+   var selected = function (bool) {    return A2(boolProperty,"selected",bool);};
+   var autofocus = function (bool) {    return A2(boolProperty,"autofocus",bool);};
+   var disabled = function (bool) {    return A2(boolProperty,"disabled",bool);};
+   var multiple = function (bool) {    return A2(boolProperty,"multiple",bool);};
+   var novalidate = function (bool) {    return A2(boolProperty,"noValidate",bool);};
+   var readonly = function (bool) {    return A2(boolProperty,"readOnly",bool);};
+   var required = function (bool) {    return A2(boolProperty,"required",bool);};
+   var ismap = function (value) {    return A2(boolProperty,"isMap",value);};
+   var download = function (bool) {    return A2(boolProperty,"download",bool);};
+   var reversed = function (bool) {    return A2(boolProperty,"reversed",bool);};
+   var classList = function (list) {    return $class(A2($String.join," ",A2($List.map,$Basics.fst,A2($List.filter,$Basics.snd,list))));};
+   var style = function (props) {
+      return A2(property,
+      "style",
+      $Json$Encode.object(A2($List.map,function (_p0) {    var _p1 = _p0;return {ctor: "_Tuple2",_0: _p1._0,_1: $Json$Encode.string(_p1._1)};},props)));
+   };
+   var key = function (k) {    return A2(stringProperty,"key",k);};
+   return _elm.Html.Attributes.values = {_op: _op
+                                        ,key: key
+                                        ,style: style
+                                        ,$class: $class
+                                        ,classList: classList
+                                        ,id: id
+                                        ,title: title
+                                        ,hidden: hidden
+                                        ,type$: type$
+                                        ,value: value
+                                        ,checked: checked
+                                        ,placeholder: placeholder
+                                        ,selected: selected
+                                        ,accept: accept
+                                        ,acceptCharset: acceptCharset
+                                        ,action: action
+                                        ,autocomplete: autocomplete
+                                        ,autofocus: autofocus
+                                        ,autosave: autosave
+                                        ,disabled: disabled
+                                        ,enctype: enctype
+                                        ,formaction: formaction
+                                        ,list: list
+                                        ,maxlength: maxlength
+                                        ,minlength: minlength
+                                        ,method: method
+                                        ,multiple: multiple
+                                        ,name: name
+                                        ,novalidate: novalidate
+                                        ,pattern: pattern
+                                        ,readonly: readonly
+                                        ,required: required
+                                        ,size: size
+                                        ,$for: $for
+                                        ,form: form
+                                        ,max: max
+                                        ,min: min
+                                        ,step: step
+                                        ,cols: cols
+                                        ,rows: rows
+                                        ,wrap: wrap
+                                        ,href: href
+                                        ,target: target
+                                        ,download: download
+                                        ,downloadAs: downloadAs
+                                        ,hreflang: hreflang
+                                        ,media: media
+                                        ,ping: ping
+                                        ,rel: rel
+                                        ,ismap: ismap
+                                        ,usemap: usemap
+                                        ,shape: shape
+                                        ,coords: coords
+                                        ,src: src
+                                        ,height: height
+                                        ,width: width
+                                        ,alt: alt
+                                        ,autoplay: autoplay
+                                        ,controls: controls
+                                        ,loop: loop
+                                        ,preload: preload
+                                        ,poster: poster
+                                        ,$default: $default
+                                        ,kind: kind
+                                        ,srclang: srclang
+                                        ,sandbox: sandbox
+                                        ,seamless: seamless
+                                        ,srcdoc: srcdoc
+                                        ,reversed: reversed
+                                        ,start: start
+                                        ,align: align
+                                        ,colspan: colspan
+                                        ,rowspan: rowspan
+                                        ,headers: headers
+                                        ,scope: scope
+                                        ,async: async
+                                        ,charset: charset
+                                        ,content: content
+                                        ,defer: defer
+                                        ,httpEquiv: httpEquiv
+                                        ,language: language
+                                        ,scoped: scoped
+                                        ,accesskey: accesskey
+                                        ,contenteditable: contenteditable
+                                        ,contextmenu: contextmenu
+                                        ,dir: dir
+                                        ,draggable: draggable
+                                        ,dropzone: dropzone
+                                        ,itemprop: itemprop
+                                        ,lang: lang
+                                        ,spellcheck: spellcheck
+                                        ,tabindex: tabindex
+                                        ,challenge: challenge
+                                        ,keytype: keytype
+                                        ,cite: cite
+                                        ,datetime: datetime
+                                        ,pubdate: pubdate
+                                        ,manifest: manifest
+                                        ,property: property
+                                        ,attribute: attribute};
+};
 Elm.Native.Http = {};
 Elm.Native.Http.make = function(localRuntime) {
 
@@ -10911,47 +11136,203 @@ Elm.StartApp.make = function (_elm) {
    var Config = F4(function (a,b,c,d) {    return {init: a,update: b,view: c,inputs: d};});
    return _elm.StartApp.values = {_op: _op,start: start,Config: Config,App: App};
 };
-Elm.Decoding = Elm.Decoding || {};
-Elm.Decoding.make = function (_elm) {
+Elm.Components = Elm.Components || {};
+Elm.Components.Date = Elm.Components.Date || {};
+Elm.Components.Date.make = function (_elm) {
    "use strict";
-   _elm.Decoding = _elm.Decoding || {};
-   if (_elm.Decoding.values) return _elm.Decoding.values;
+   _elm.Components = _elm.Components || {};
+   _elm.Components.Date = _elm.Components.Date || {};
+   if (_elm.Components.Date.values) return _elm.Components.Date.values;
    var _U = Elm.Native.Utils.make(_elm),
    $Basics = Elm.Basics.make(_elm),
    $Debug = Elm.Debug.make(_elm),
-   $Effects = Elm.Effects.make(_elm),
    $Html = Elm.Html.make(_elm),
-   $Http = Elm.Http.make(_elm),
-   $Json$Decode = Elm.Json.Decode.make(_elm),
-   $Json$Decode$Extra = Elm.Json.Decode.Extra.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm),
-   $StartApp = Elm.StartApp.make(_elm),
-   $Task = Elm.Task.make(_elm);
+   $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var decodeBase = function (f) {
-      return A2($Json$Decode$Extra._op["|:"],
-      A2($Json$Decode$Extra._op["|:"],
-      A2($Json$Decode$Extra._op["|:"],
-      A2($Json$Decode$Extra._op["|:"],f,A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
-      A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
-      $Json$Decode.oneOf(_U.list([A2($Json$Decode._op[":="],"label",$Json$Decode.string),$Json$Decode.succeed("")]))),
-      A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string)));
-   };
-   var update = F2(function (action,model) {
-      var _p0 = action;
-      if (_p0.ctor === "NoOp") {
-            return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
-         } else {
-            return {ctor: "_Tuple2",_0: _U.update(model,{configuration: A2($Maybe.withDefault,model.configuration,_p0._0)}),_1: $Effects.none};
-         }
+   var view = F2(function (address,conf) {
+      return A2($Html.div,_U.list([]),_U.list([$Html.text(conf.label),A2($Html.input,_U.list([$Html$Attributes.type$("date")]),_U.list([]))]));
    });
-   var view = F2(function (address,model) {    return A2($Html.div,_U.list([]),_U.list([$Html.text($Basics.toString(model))]));});
-   var configurationModel = {path_name: "",label: "",short_name: "",path: _U.list([]),sections: _U.list([])};
-   var AddConfiguration = function (a) {    return {ctor: "AddConfiguration",_0: a};};
-   var NoOp = {ctor: "NoOp"};
+   return _elm.Components.Date.values = {_op: _op,view: view};
+};
+Elm.Components = Elm.Components || {};
+Elm.Components.Fieldset = Elm.Components.Fieldset || {};
+Elm.Components.Fieldset.make = function (_elm) {
+   "use strict";
+   _elm.Components = _elm.Components || {};
+   _elm.Components.Fieldset = _elm.Components.Fieldset || {};
+   if (_elm.Components.Fieldset.values) return _elm.Components.Fieldset.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var view = F3(function (address,model,renderComponent) {
+      return A2($Html.div,_U.list([]),_U.list([$Html.text("fieldset"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),model.components))]));
+   });
+   return _elm.Components.Fieldset.values = {_op: _op,view: view};
+};
+Elm.Components = Elm.Components || {};
+Elm.Components.Grid = Elm.Components.Grid || {};
+Elm.Components.Grid.make = function (_elm) {
+   "use strict";
+   _elm.Components = _elm.Components || {};
+   _elm.Components.Grid = _elm.Components.Grid || {};
+   if (_elm.Components.Grid.values) return _elm.Components.Grid.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var view = F3(function (address,model,renderComponent) {
+      return A2($Html.div,_U.list([]),_U.list([$Html.text("grid"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),model.components))]));
+   });
+   return _elm.Components.Grid.values = {_op: _op,view: view};
+};
+Elm.Components = Elm.Components || {};
+Elm.Components.System = Elm.Components.System || {};
+Elm.Components.System.make = function (_elm) {
+   "use strict";
+   _elm.Components = _elm.Components || {};
+   _elm.Components.System = _elm.Components.System || {};
+   if (_elm.Components.System.values) return _elm.Components.System.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var Select = function (a) {    return {ctor: "Select",_0: a};};
+   var Number = function (a) {    return {ctor: "Number",_0: a};};
+   var RadioButtons = function (a) {    return {ctor: "RadioButtons",_0: a};};
+   var TextArea = function (a) {    return {ctor: "TextArea",_0: a};};
+   var DatePicker = function (a) {    return {ctor: "DatePicker",_0: a};};
+   var Text = function (a) {    return {ctor: "Text",_0: a};};
+   var Toggle = function (a) {    return {ctor: "Toggle",_0: a};};
+   var Grid = function (a) {    return {ctor: "Grid",_0: a};};
+   var Fieldset = function (a) {    return {ctor: "Fieldset",_0: a};};
+   var TagsInput = function (a) {    return {ctor: "TagsInput",_0: a};};
+   var ComponentSelect = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return function (l) {
+                                       return function (m) {
+                                          return {path_name: a
+                                                 ,short_name: b
+                                                 ,path: c
+                                                 ,position: d
+                                                 ,type$: e
+                                                 ,label_inside_input: f
+                                                 ,repository: g
+                                                 ,validation: h
+                                                 ,label: i
+                                                 ,label_visible: j
+                                                 ,placeholder_label: k
+                                                 ,default_value: l
+                                                 ,options: m};
+                                       };
+                                    };
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentNumber = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return {path_name: a
+                                           ,short_name: b
+                                           ,path: c
+                                           ,position: d
+                                           ,type$: e
+                                           ,label_inside_input: f
+                                           ,repository: g
+                                           ,validation: h
+                                           ,label: i
+                                           ,label_visible: j
+                                           ,placeholder_label: k};
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var ComponentRadioButtons = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return function (l) {
+                                       return {path_name: a
+                                              ,short_name: b
+                                              ,path: c
+                                              ,position: d
+                                              ,type$: e
+                                              ,label_inside_input: f
+                                              ,repository: g
+                                              ,validation: h
+                                              ,label: i
+                                              ,label_visible: j
+                                              ,placeholder_label: k
+                                              ,options: l};
+                                    };
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
    var ComponentTextArea = function (a) {
       return function (b) {
          return function (c) {
@@ -11120,44 +11501,95 @@ Elm.Decoding.make = function (_elm) {
          };
       };
    };
-   var ComponentGrid = F5(function (a,b,c,d,e) {    return {path_name: a,short_name: b,path: c,position: d,type$: e};});
-   var decodeComponentGrid = A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(ComponentGrid),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
-   A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
-   A2($Json$Decode._op[":="],"type",$Json$Decode.string));
-   var ComponentFieldset = F7(function (a,b,c,d,e,f,g) {    return {path_name: a,short_name: b,path: c,position: d,type$: e,label: f,label_visible: g};});
-   var decodeComponentFieldset = A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(ComponentFieldset),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
-   A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
-   A2($Json$Decode._op[":="],"type",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_visible",$Json$Decode.bool));
+   var ComponentGrid = F6(function (a,b,c,d,e,f) {    return {path_name: a,short_name: b,path: c,position: d,type$: e,components: f};});
+   var ComponentFieldset = F8(function (a,b,c,d,e,f,g,h) {
+      return {path_name: a,short_name: b,path: c,position: d,type$: e,label: f,label_visible: g,components: h};
+   });
    var ComponentBase = F5(function (a,b,c,d,e) {    return {path_name: a,short_name: b,path: c,position: d,type$: e};});
-   var decodeComponentBase = A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(ComponentBase),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
-   A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
-   A2($Json$Decode._op[":="],"type",$Json$Decode.string));
    var ValueLabel = F2(function (a,b) {    return {label: a,value: b};});
    var Validation = F9(function (a,b,c,d,e,f,g,h,i) {
       return {path_name: a,short_name: b,required: c,maxlength: d,format: e,min: f,max: g,scope: h,type$: i};
    });
+   var Repository = F4(function (a,b,c,d) {    return {path_name: a,path: b,class_name: c,short_name: d};});
+   var Section = F7(function (a,b,c,d,e,f,g) {    return {path_name: a,label: b,short_name: c,path: d,template: e,position: f,components: g};});
+   var Datum = F2(function (a,b) {    return {path: a,value: b};});
+   var Configuration = F5(function (a,b,c,d,e) {    return {path_name: a,short_name: b,label: c,path: d,sections: e};});
+   return _elm.Components.System.values = {_op: _op
+                                          ,Configuration: Configuration
+                                          ,Datum: Datum
+                                          ,Section: Section
+                                          ,Repository: Repository
+                                          ,Validation: Validation
+                                          ,ValueLabel: ValueLabel
+                                          ,ComponentBase: ComponentBase
+                                          ,ComponentFieldset: ComponentFieldset
+                                          ,ComponentGrid: ComponentGrid
+                                          ,ComponentToggle: ComponentToggle
+                                          ,ComponentTagsInput: ComponentTagsInput
+                                          ,ComponentText: ComponentText
+                                          ,ComponentDatePicker: ComponentDatePicker
+                                          ,ComponentTextArea: ComponentTextArea
+                                          ,ComponentRadioButtons: ComponentRadioButtons
+                                          ,ComponentNumber: ComponentNumber
+                                          ,ComponentSelect: ComponentSelect
+                                          ,TagsInput: TagsInput
+                                          ,Fieldset: Fieldset
+                                          ,Grid: Grid
+                                          ,Toggle: Toggle
+                                          ,Text: Text
+                                          ,DatePicker: DatePicker
+                                          ,TextArea: TextArea
+                                          ,RadioButtons: RadioButtons
+                                          ,Number: Number
+                                          ,Select: Select};
+};
+Elm.Components = Elm.Components || {};
+Elm.Components.Text = Elm.Components.Text || {};
+Elm.Components.Text.make = function (_elm) {
+   "use strict";
+   _elm.Components = _elm.Components || {};
+   _elm.Components.Text = _elm.Components.Text || {};
+   if (_elm.Components.Text.values) return _elm.Components.Text.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var view = F2(function (address,conf) {
+      return A2($Html.div,_U.list([]),_U.list([$Html.text(conf.type$),A2($Html.input,_U.list([$Html$Attributes.type$("text")]),_U.list([]))]));
+   });
+   return _elm.Components.Text.values = {_op: _op,view: view};
+};
+Elm.Decoding = Elm.Decoding || {};
+Elm.Decoding.make = function (_elm) {
+   "use strict";
+   _elm.Decoding = _elm.Decoding || {};
+   if (_elm.Decoding.values) return _elm.Decoding.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Components$Date = Elm.Components.Date.make(_elm),
+   $Components$Fieldset = Elm.Components.Fieldset.make(_elm),
+   $Components$Grid = Elm.Components.Grid.make(_elm),
+   $Components$System = Elm.Components.System.make(_elm),
+   $Components$Text = Elm.Components.Text.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Http = Elm.Http.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $Json$Decode$Extra = Elm.Json.Decode.Extra.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp = Elm.StartApp.make(_elm),
+   $Task = Elm.Task.make(_elm);
+   var _op = {};
    var decodeValidation = A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
@@ -11166,7 +11598,7 @@ Elm.Decoding.make = function (_elm) {
    A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(Validation),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
+   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed($Components$System.Validation),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
    A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
    $Json$Decode.maybe(A2($Json$Decode._op[":="],"required",$Json$Decode.bool))),
    $Json$Decode.maybe(A2($Json$Decode._op[":="],"maxlength",$Json$Decode.$int))),
@@ -11175,162 +11607,180 @@ Elm.Decoding.make = function (_elm) {
    $Json$Decode.maybe(A2($Json$Decode._op[":="],"max",$Json$Decode.$int))),
    A2($Json$Decode._op[":="],"scope",$Json$Decode.string)),
    A2($Json$Decode._op[":="],"type",$Json$Decode.string));
-   var Repository = F4(function (a,b,c,d) {    return {path_name: a,path: b,class_name: c,short_name: d};});
    var decodeRepository = A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(Repository),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
+   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed($Components$System.Repository),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
    A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
    A2($Json$Decode._op[":="],"class_name",$Json$Decode.string)),
    A2($Json$Decode._op[":="],"short_name",$Json$Decode.string));
+   var decodeComponentBase = function (f) {
+      return A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],f,A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
+      A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
+      A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
+      A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
+      A2($Json$Decode._op[":="],"type",$Json$Decode.string)),
+      A2($Json$Decode._op[":="],"label_inside_input",$Json$Decode.bool)),
+      A2($Json$Decode._op[":="],"repository",decodeRepository)),
+      A2($Json$Decode._op[":="],"validation",decodeValidation)),
+      A2($Json$Decode._op[":="],"label",$Json$Decode.string)),
+      A2($Json$Decode._op[":="],"label_visible",$Json$Decode.bool));
+   };
    var decodeComponentToggle = A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(ComponentToggle),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
-   A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
-   A2($Json$Decode._op[":="],"type",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_inside_input",$Json$Decode.bool)),
-   A2($Json$Decode._op[":="],"repository",decodeRepository)),
-   A2($Json$Decode._op[":="],"validation",decodeValidation)),
-   A2($Json$Decode._op[":="],"label",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_visible",$Json$Decode.bool)),
+   decodeComponentBase($Json$Decode.succeed($Components$System.ComponentToggle)),
    A2($Json$Decode._op[":="],"placeholder_label",$Json$Decode.string)),
    A2($Json$Decode._op[":="],
    "options",
    $Json$Decode.list(A3($Json$Decode.object2,
-   ValueLabel,
+   $Components$System.ValueLabel,
    A2($Json$Decode._op[":="],"label",$Json$Decode.string),
    A2($Json$Decode._op[":="],"value",$Json$Decode.bool)))));
    var decodeComponentTagsInput = A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(ComponentTagsInput),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
-   A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
-   A2($Json$Decode._op[":="],"type",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_inside_input",$Json$Decode.bool)),
-   A2($Json$Decode._op[":="],"repository",decodeRepository)),
-   A2($Json$Decode._op[":="],"validation",decodeValidation)),
-   A2($Json$Decode._op[":="],"label",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_visible",$Json$Decode.bool)),
+   decodeComponentBase($Json$Decode.succeed($Components$System.ComponentTagsInput)),
    A2($Json$Decode._op[":="],"placeholder_label",$Json$Decode.string)),
    A2($Json$Decode._op[":="],"add_button_label",$Json$Decode.string));
    var decodeComponentText = A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(ComponentText),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
-   A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
-   A2($Json$Decode._op[":="],"type",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_inside_input",$Json$Decode.bool)),
-   A2($Json$Decode._op[":="],"repository",decodeRepository)),
-   A2($Json$Decode._op[":="],"validation",decodeValidation)),
-   A2($Json$Decode._op[":="],"label",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_visible",$Json$Decode.bool)),
+   decodeComponentBase($Json$Decode.succeed($Components$System.ComponentText)),
    A2($Json$Decode._op[":="],"placeholder_label",$Json$Decode.string));
-   var decodeComponentDatePicker = A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(ComponentDatePicker),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
-   A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
-   A2($Json$Decode._op[":="],"type",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_inside_input",$Json$Decode.bool)),
-   A2($Json$Decode._op[":="],"repository",decodeRepository)),
-   A2($Json$Decode._op[":="],"validation",decodeValidation)),
-   A2($Json$Decode._op[":="],"label",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_visible",$Json$Decode.bool));
+   var decodeComponentDatePicker = decodeComponentBase($Json$Decode.succeed($Components$System.ComponentDatePicker));
    var decodeComponentTextArea = A2($Json$Decode$Extra._op["|:"],
+   decodeComponentBase($Json$Decode.succeed($Components$System.ComponentTextArea)),
+   A2($Json$Decode._op[":="],"placeholder_label",$Json$Decode.string));
+   var decodeComponentRadioButtons = A2($Json$Decode$Extra._op["|:"],
+   A2($Json$Decode$Extra._op["|:"],
+   decodeComponentBase($Json$Decode.succeed($Components$System.ComponentRadioButtons)),
+   A2($Json$Decode._op[":="],"placeholder_label",$Json$Decode.string)),
+   A2($Json$Decode._op[":="],
+   "options",
+   $Json$Decode.list(A3($Json$Decode.object2,
+   $Components$System.ValueLabel,
+   A2($Json$Decode._op[":="],"label",$Json$Decode.string),
+   A2($Json$Decode._op[":="],"value",$Json$Decode.string)))));
+   var decodeComponentNumber = A2($Json$Decode$Extra._op["|:"],
+   decodeComponentBase($Json$Decode.succeed($Components$System.ComponentNumber)),
+   A2($Json$Decode._op[":="],"placeholder_label",$Json$Decode.string));
+   var decodeComponentSelect = A2($Json$Decode$Extra._op["|:"],
+   A2($Json$Decode$Extra._op["|:"],
+   A2($Json$Decode$Extra._op["|:"],
+   decodeComponentBase($Json$Decode.succeed($Components$System.ComponentSelect)),
+   A2($Json$Decode._op[":="],"placeholder_label",$Json$Decode.string)),
+   A2($Json$Decode._op[":="],"default_value",$Json$Decode.string)),
+   A2($Json$Decode._op[":="],
+   "options",
+   $Json$Decode.list(A3($Json$Decode.object2,
+   $Components$System.ValueLabel,
+   A2($Json$Decode._op[":="],"label",$Json$Decode.string),
+   A2($Json$Decode._op[":="],"value",$Json$Decode.string)))));
+   var componentTypeInfo = function (type$) {
+      var _p0 = type$;
+      switch (_p0)
+      {case "Fieldset": return A2($Json$Decode.map,$Components$System.Fieldset,decodeComponentFieldset);
+         case "TagsInput": return A2($Json$Decode.map,$Components$System.TagsInput,decodeComponentTagsInput);
+         case "Grid": return A2($Json$Decode.map,$Components$System.Grid,decodeComponentGrid);
+         case "Toggle": return A2($Json$Decode.map,$Components$System.Toggle,decodeComponentToggle);
+         case "Text": return A2($Json$Decode.map,$Components$System.Text,decodeComponentText);
+         case "DatePicker": return A2($Json$Decode.map,$Components$System.DatePicker,decodeComponentDatePicker);
+         case "TextArea": return A2($Json$Decode.map,$Components$System.TextArea,decodeComponentTextArea);
+         case "RadioButtons": return A2($Json$Decode.map,$Components$System.RadioButtons,decodeComponentRadioButtons);
+         case "Number": return A2($Json$Decode.map,$Components$System.Number,decodeComponentNumber);
+         case "Select": return A2($Json$Decode.map,$Components$System.Select,decodeComponentSelect);
+         default: return $Json$Decode.fail(A2($Basics._op["++"],"not found: ",A2($Debug.log,"fail",type$)));}
+   };
+   var decodeComponentFieldset = A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed(ComponentTextArea),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
+   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed($Components$System.ComponentFieldset),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
    A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
    A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
    A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
    A2($Json$Decode._op[":="],"type",$Json$Decode.string)),
-   A2($Json$Decode._op[":="],"label_inside_input",$Json$Decode.bool)),
-   A2($Json$Decode._op[":="],"repository",decodeRepository)),
-   A2($Json$Decode._op[":="],"validation",decodeValidation)),
    A2($Json$Decode._op[":="],"label",$Json$Decode.string)),
    A2($Json$Decode._op[":="],"label_visible",$Json$Decode.bool)),
-   A2($Json$Decode._op[":="],"placeholder_label",$Json$Decode.string));
-   var TextArea = function (a) {    return {ctor: "TextArea",_0: a};};
-   var DatePicker = function (a) {    return {ctor: "DatePicker",_0: a};};
-   var Text = function (a) {    return {ctor: "Text",_0: a};};
-   var Toggle = function (a) {    return {ctor: "Toggle",_0: a};};
-   var Grid = function (a) {    return {ctor: "Grid",_0: a};};
-   var Fieldset = function (a) {    return {ctor: "Fieldset",_0: a};};
-   var TagsInput = function (a) {    return {ctor: "TagsInput",_0: a};};
-   var Base = function (a) {    return {ctor: "Base",_0: a};};
-   var componentTypeInfo = function (type$) {
-      var d = A2($Debug.log,"matching",type$);
-      var _p1 = type$;
-      switch (_p1)
-      {case "Fieldset": return A2($Json$Decode.map,Fieldset,decodeComponentFieldset);
-         case "TagsInput": return A2($Json$Decode.map,TagsInput,decodeComponentTagsInput);
-         case "Grid": return A2($Json$Decode.map,Grid,decodeComponentGrid);
-         case "Toggle": return A2($Json$Decode.map,Toggle,decodeComponentToggle);
-         case "Text": return A2($Json$Decode.map,Text,decodeComponentText);
-         case "DatePicker": return A2($Json$Decode.map,DatePicker,decodeComponentDatePicker);
-         case "TextArea": return A2($Json$Decode.map,TextArea,decodeComponentTextArea);
-         default: return A2($Json$Decode.map,Base,decodeComponentBase);}
-   };
+   A2($Json$Decode._op[":="],"components",$Json$Decode.list($Json$Decode$Extra.lazy(function (_p1) {    return decodeComponentType;}))));
    var decodeComponentType = A2($Json$Decode.andThen,A2($Json$Decode._op[":="],"type",$Json$Decode.string),componentTypeInfo);
-   var Section = F7(function (a,b,c,d,e,f,g) {    return {path_name: a,label: b,short_name: c,path: d,template: e,position: f,components: g};});
+   var decodeComponentGrid = A2($Json$Decode$Extra._op["|:"],
+   A2($Json$Decode$Extra._op["|:"],
+   A2($Json$Decode$Extra._op["|:"],
+   A2($Json$Decode$Extra._op["|:"],
+   A2($Json$Decode$Extra._op["|:"],
+   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed($Components$System.ComponentGrid),A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
+   A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
+   A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
+   A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
+   A2($Json$Decode._op[":="],"type",$Json$Decode.string)),
+   A2($Json$Decode._op[":="],"components",$Json$Decode.list($Json$Decode$Extra.lazy(function (_p2) {    return decodeComponentType;}))));
+   var decodeInitialData = A2($Json$Decode$Extra._op["|:"],
+   A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed($Components$System.Datum),A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
+   A2($Json$Decode._op[":="],"value",$Json$Decode.oneOf(_U.list([$Json$Decode.string]))));
+   var decodeBase = function (f) {
+      return A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],
+      A2($Json$Decode$Extra._op["|:"],f,A2($Json$Decode._op[":="],"path_name",$Json$Decode.string)),
+      A2($Json$Decode._op[":="],"short_name",$Json$Decode.string)),
+      $Json$Decode.oneOf(_U.list([A2($Json$Decode._op[":="],"label",$Json$Decode.string),$Json$Decode.succeed("")]))),
+      A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string)));
+   };
    var decodeSections = A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],
-   A2($Json$Decode$Extra._op["|:"],decodeBase($Json$Decode.succeed(Section)),A2($Json$Decode._op[":="],"template",$Json$Decode.string)),
+   A2($Json$Decode$Extra._op["|:"],decodeBase($Json$Decode.succeed($Components$System.Section)),A2($Json$Decode._op[":="],"template",$Json$Decode.string)),
    A2($Json$Decode._op[":="],"position",$Json$Decode.$int)),
    A2($Json$Decode._op[":="],"components",$Json$Decode.list(decodeComponentType)));
-   var Configuration = F5(function (a,b,c,d,e) {    return {path_name: a,short_name: b,label: c,path: d,sections: e};});
    var decodeHeadConfiguration = A2($Json$Decode$Extra._op["|:"],
-   decodeBase($Json$Decode.succeed(Configuration)),
+   decodeBase($Json$Decode.succeed($Components$System.Configuration)),
    A2($Json$Decode._op[":="],"sections",$Json$Decode.list(decodeSections)));
-   var decodeConfiguration = A2($Json$Decode$Extra._op["|:"],
-   $Json$Decode.succeed($Basics.identity),
-   A2($Json$Decode.at,_U.list(["result","configuration"]),decodeHeadConfiguration));
+   var decodeConfiguration = A2($Json$Decode.object1,
+   $Basics.identity,
+   A2($Json$Decode._op[":="],"result",A2($Json$Decode.object1,$Basics.identity,A2($Json$Decode._op[":="],"configuration",decodeHeadConfiguration))));
+   var update = F2(function (action,model) {
+      var _p3 = action;
+      if (_p3.ctor === "NoOp") {
+            return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+         } else {
+            return {ctor: "_Tuple2",_0: _U.update(model,{configuration: A2($Maybe.withDefault,model.configuration,_p3._0)}),_1: $Effects.none};
+         }
+   });
+   var renderComponent = F2(function (address,component) {
+      var _p4 = component;
+      switch (_p4.ctor)
+      {case "TagsInput": return A2($Components$Text.view,address,_p4._0);
+         case "Fieldset": return A3($Components$Fieldset.view,address,_p4._0,renderComponent);
+         case "Grid": return A3($Components$Grid.view,address,_p4._0,renderComponent);
+         case "Toggle": return A2($Components$Text.view,address,_p4._0);
+         case "Text": return A2($Components$Text.view,address,_p4._0);
+         case "DatePicker": return A2($Components$Date.view,address,_p4._0);
+         case "TextArea": return A2($Components$Text.view,address,_p4._0);
+         case "RadioButtons": return A2($Components$Text.view,address,_p4._0);
+         case "Number": return A2($Components$Text.view,address,_p4._0);
+         default: return A2($Components$Text.view,address,_p4._0);}
+   });
+   var renderSection = F2(function (address,section) {
+      return A2($Html.div,_U.list([]),_U.list([$Html.text("section"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),section.components))]));
+   });
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text($Basics.toString(model)),A2($Html.div,_U.list([]),A2($List.map,renderSection(address),model.configuration.sections))]));
+   });
+   var configurationModel = {path_name: "",label: "",short_name: "",path: _U.list([]),sections: _U.list([])};
+   var AddConfiguration = function (a) {    return {ctor: "AddConfiguration",_0: a};};
    var fetchConfiguration = $Effects.task(A2($Task.map,AddConfiguration,$Task.toMaybe(A2($Http.get,decodeConfiguration,"/configuration.json"))));
+   var NoOp = {ctor: "NoOp"};
    var Model = function (a) {    return {configuration: a};};
    var init = {ctor: "_Tuple2",_0: Model(configurationModel),_1: fetchConfiguration};
    var app = $StartApp.start({update: update,view: view,init: init,inputs: _U.list([])});
@@ -11338,27 +11788,6 @@ Elm.Decoding.make = function (_elm) {
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
    return _elm.Decoding.values = {_op: _op
                                  ,Model: Model
-                                 ,Configuration: Configuration
-                                 ,Section: Section
-                                 ,Base: Base
-                                 ,TagsInput: TagsInput
-                                 ,Fieldset: Fieldset
-                                 ,Grid: Grid
-                                 ,Toggle: Toggle
-                                 ,Text: Text
-                                 ,DatePicker: DatePicker
-                                 ,TextArea: TextArea
-                                 ,Repository: Repository
-                                 ,Validation: Validation
-                                 ,ValueLabel: ValueLabel
-                                 ,ComponentBase: ComponentBase
-                                 ,ComponentFieldset: ComponentFieldset
-                                 ,ComponentGrid: ComponentGrid
-                                 ,ComponentToggle: ComponentToggle
-                                 ,ComponentTagsInput: ComponentTagsInput
-                                 ,ComponentText: ComponentText
-                                 ,ComponentDatePicker: ComponentDatePicker
-                                 ,ComponentTextArea: ComponentTextArea
                                  ,NoOp: NoOp
                                  ,AddConfiguration: AddConfiguration
                                  ,app: app
@@ -11366,10 +11795,13 @@ Elm.Decoding.make = function (_elm) {
                                  ,init: init
                                  ,configurationModel: configurationModel
                                  ,view: view
+                                 ,renderSection: renderSection
+                                 ,renderComponent: renderComponent
                                  ,update: update
                                  ,fetchConfiguration: fetchConfiguration
                                  ,decodeConfiguration: decodeConfiguration
                                  ,decodeBase: decodeBase
+                                 ,decodeInitialData: decodeInitialData
                                  ,decodeHeadConfiguration: decodeHeadConfiguration
                                  ,decodeRepository: decodeRepository
                                  ,decodeValidation: decodeValidation
@@ -11383,5 +11815,8 @@ Elm.Decoding.make = function (_elm) {
                                  ,decodeComponentTagsInput: decodeComponentTagsInput
                                  ,decodeComponentText: decodeComponentText
                                  ,decodeComponentDatePicker: decodeComponentDatePicker
-                                 ,decodeComponentTextArea: decodeComponentTextArea};
+                                 ,decodeComponentTextArea: decodeComponentTextArea
+                                 ,decodeComponentRadioButtons: decodeComponentRadioButtons
+                                 ,decodeComponentNumber: decodeComponentNumber
+                                 ,decodeComponentSelect: decodeComponentSelect};
 };

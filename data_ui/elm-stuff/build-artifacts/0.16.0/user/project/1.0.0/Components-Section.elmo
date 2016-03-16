@@ -17,15 +17,22 @@ Elm.Components.Section.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var view = F2(function (address,model) {
-      return A2($Html.div,_U.list([]),_U.list([$Html.text("section"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),model.components))]));
-   });
    var renderComponent = F2(function (address,component) {
       var _p0 = component;
       switch (_p0.ctor)
-      {case "T": return A2($Components$Text.view,address,_p0._0);
-         case "D": return A2($Components$Date.view,address,_p0._0);
-         default: return A2(view,address,_p0._0);}
+      {case "TagsInput": return A2($Components$Text.view,address,_p0._0);
+         case "Fieldset": return A2($Components$Text.view,address,_p0._0);
+         case "Grid": return A2($Components$Text.view,address,_p0._0);
+         case "Toggle": return A2($Components$Text.view,address,_p0._0);
+         case "Text": return A2($Components$Text.view,address,_p0._0);
+         case "DatePicker": return A2($Components$Date.view,address,_p0._0);
+         case "TextArea": return A2($Components$Text.view,address,_p0._0);
+         case "RadioButtons": return A2($Components$Text.view,address,_p0._0);
+         case "Number": return A2($Components$Text.view,address,_p0._0);
+         default: return A2($Components$Text.view,address,_p0._0);}
+   });
+   var view = F2(function (address,model) {
+      return A2($Html.div,_U.list([]),_U.list([$Html.text("section"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),model.components))]));
    });
    return _elm.Components.Section.values = {_op: _op,view: view,renderComponent: renderComponent};
 };

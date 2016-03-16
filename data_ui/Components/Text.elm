@@ -4,6 +4,9 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 
 view address conf = 
-  input [type' "text", placeholder conf.placeholder] []
+  div [] 
+    [ text conf.type'
+    , input [type' "text"] []
+    ]
 
   

@@ -6,167 +6,19 @@ import Effects
 import Task
 import Http
 import Json.Decode as Json exposing ((:=), map)
-import Json.Decode.Extra as Json2 exposing ((|:))
+import Json.Decode.Extra as Json2 exposing ((|:), lazy)
 
+import Components.Text
+import Components.Date
+import Components.Fieldset
+import Components.Grid
+import Components.System exposing (..)
 
 type alias Model = 
   { configuration: Configuration
+  , report_data: ReportData
   }
 
-type alias Path =
-  List String
-
-type alias Configuration =
-  { path_name: String
-  , short_name: String
-  , label: String
-  , path: Path
-  , sections: List Section
-  }
-
--- extenible record do no create a constructor, we need the construcotr for the json decode
-type alias Section =
-  { path_name: String
-  , label: String
-  , short_name: String
-  , path: Path
-  , template: String
-  , position: Int
-  , components: List Component
-  }
-
-type Component
-  = Base ComponentBase
-  | TagsInput ComponentTagsInput
-  | Fieldset ComponentFieldset
-  | Grid ComponentGrid
-  | Toggle ComponentToggle
-  | Text ComponentText
-  | DatePicker ComponentDatePicker
-  | TextArea ComponentTextArea
-
-type alias Repository = 
-  { path_name: String 
-  , path: List String
-  , class_name: String
-  , short_name: String 
-  }
-
-type alias Validation =
-  { path_name: String
-  , short_name: String
-  , required: Maybe Bool
-  , maxlength: Maybe Int
-  , format: Maybe String
-  , min: Maybe Int
-  , max: Maybe Int
-  , scope: String
-  , type': String
-  }
-
-type alias ValueLabel =
-  { label: String
-  , value: Bool 
-  }
-
-type alias ComponentBase =
-  { path_name: String
-  , short_name: String
-  , path: Path
-  , position: Int
-  , type': String
-  }
-
-type alias ComponentFieldset = 
-  { path_name: String
-  , short_name: String
-  , path: Path
-  , position: Int
-  , type': String
-  , label: String
-  , label_visible: Bool
-  --, components: List Component
-  }
-
-type alias ComponentGrid = 
-    { path_name: String
-    , short_name: String
-    , path: Path
-    , position: Int
-    , type': String
-    --, components: List Component
-    }
-
-type alias ComponentToggle =
-  { path_name: String
-  , short_name: String
-  , path: Path
-  , position: Int
-  , type': String
-  , label_inside_input: Bool
-  , repository: Repository
-  , validation: Validation
-  , label: String
-  , label_visible: Bool
-  , placeholder_label: String
-  , options: List ValueLabel
-  }
-
-type alias ComponentTagsInput =
-  { path_name: String
-  , short_name: String
-  , path: Path
-  , position : Int
-  , type' : String
-  , label_inside_input: Bool
-  , repository: Repository
-  , validation: Validation
-  , label: String
-  , label_visible: Bool
-  , placeholder_label: String
-  , add_button_label: String
-  }
-
-type alias ComponentText =
-  { path_name: String
-  , short_name: String
-  , path: Path
-  , position: Int
-  , type': String
-  , label_inside_input: Bool
-  , repository: Repository
-  , validation: Validation
-  , label: String
-  , label_visible: Bool
-  , placeholder_label: String
-  }
-
-type alias ComponentDatePicker =
-  { path_name: String
-  , short_name: String
-  , path: Path
-  , position: Int
-  , type': String
-  , label_inside_input: Bool
-  , repository: Repository
-  , validation: Validation
-  , label: String
-  , label_visible: Bool
-  }
-
-type alias ComponentTextArea =
-  { path_name: String
-  , short_name: String
-  , path: Path
-  , position: Int
-  , type': String
-  , label_inside_input: Bool
-  , repository: Repository
-  , validation: Validation
-  , label: String
-  , label_visible: Bool
-  , placeholder_label: String
-  }
 
 type Action = NoOp | AddConfiguration (Maybe Configuration)
 
@@ -182,7 +34,7 @@ main =
   app.html
 
 init =
-  (Model configurationModel, fetchConfiguration)
+  (Model configurationModel [], fetchConfiguration)
 
 configurationModel =
   { path_name = "", label = "", short_name = "", path = [], sections = [] }
@@ -190,12 +42,40 @@ configurationModel =
 view address model =
   div [] 
     [ text (toString model)
+    ,  div [] (List.map (renderSection address) model.configuration.sections)
     ]
+
+renderSection address section =
+  div [] 
+    [ text "section"
+    , div [] (List.map (renderComponent address) section.components)
+    ]
+
+renderComponent address component =
+  case component of
+    TagsInput t -> Components.Text.view address t
+    Fieldset t -> Components.Fieldset.view address t renderComponent
+    Grid t -> Components.Grid.view address t renderComponent
+    Toggle t -> Components.Text.view address t
+    Text t -> Components.Text.view address t
+    DatePicker t -> Components.Date.view address t
+    TextArea t -> Components.Text.view address t
+    RadioButtons t -> Components.Text.view address t
+    Number t -> Components.Text.view address t
+    Select t -> Components.Text.view address t
+
 
 update action model =
   case action of 
     NoOp -> (model, Effects.none)
-    AddConfiguration conf -> ({ model | configuration = Maybe.withDefault model.configuration conf}, Effects.none)
+    AddConfiguration conf -> 
+      let ff = Debug.log "lol" conf
+      in
+      (model, Effects.none)
+      --({ model | 
+      --  configuration = Maybe.withDefault model.configuration conf.configuration, 
+      --  report_data = Maybe.withDefault model.report_data conf.report_data}
+      --, Effects.none)
 
 
 fetchConfiguration =
@@ -205,8 +85,11 @@ fetchConfiguration =
   |> Effects.task
 
 decodeConfiguration =
-  Json.succeed identity 
-    |: (Json.at ["result", "configuration"]  decodeHeadConfiguration )
+    --Json.at ["result", "configuration"]  decodeHeadConfiguration 
+  Json.object1 identity ("result" := 
+    Json.object2 identity 
+      ("configuration" := decodeHeadConfiguration)
+      ("initial_data" := (Json.list decodeInitialData)))
 
 decodeBase f = 
   f
@@ -215,7 +98,12 @@ decodeBase f =
     |: (Json.oneOf ["label" := Json.string, Json.succeed ""])
     |: ("path" := Json.list Json.string)
 
-decodeHeadConfiguration = 
+decodeInitialData =
+  Json.succeed Datum
+    |: ("path" := Json.list Json.string)
+    |: ("value" := Json.string)
+
+decodeHeadConfiguration =
   decodeBase ( Json.succeed Configuration )
     |: ("sections" := (Json.list decodeSections))
 
@@ -245,12 +133,9 @@ decodeSections =
     |: ("components" := Json.list decodeComponentType)
 
 decodeComponentType =
-  ("type" := Json.string) `Json.andThen` componentTypeInfo
-
+  (("type" := Json.string) `Json.andThen` componentTypeInfo)
 
 componentTypeInfo type' =
-  let d = Debug.log "matching" type'
-  in
   case type' of
     "Fieldset" -> map Fieldset decodeComponentFieldset
     "TagsInput" -> map TagsInput decodeComponentTagsInput
@@ -259,15 +144,23 @@ componentTypeInfo type' =
     "Text" -> map Text decodeComponentText
     "DatePicker" -> map DatePicker decodeComponentDatePicker
     "TextArea" -> map TextArea decodeComponentTextArea
-    _ -> map Base decodeComponentBase
+    "RadioButtons" -> map RadioButtons decodeComponentRadioButtons
+    "Number" -> map Number decodeComponentNumber
+    "Select" -> map Select decodeComponentSelect
+    _ -> Json.fail ("not found: " ++ (Debug.log "fail" type'))
 
-decodeComponentBase =
-  Json.succeed ComponentBase 
+decodeComponentBase f =
+  f
     |: ("path_name" := Json.string)
     |: ("short_name" := Json.string)
     |: ("path" := Json.list Json.string)
     |: ("position" := Json.int)
     |: ("type" := Json.string) 
+    |: ("label_inside_input" := Json.bool)
+    |: ("repository" := decodeRepository)
+    |: ("validation" := decodeValidation)    
+    |: ("label" := Json.string)
+    |: ("label_visible" := Json.bool)
 
 decodeComponentGrid = 
   Json.succeed ComponentGrid 
@@ -276,7 +169,8 @@ decodeComponentGrid =
     |: ("path" := Json.list Json.string)
     |: ("position" := Json.int)
     |: ("type" := Json.string) 
-    --|: ("components" := Json.list decodeComponentType)
+    |: ("components" := Json.list (lazy (\_ -> decodeComponentType)))
+
 
 decodeComponentFieldset =
   Json.succeed ComponentFieldset
@@ -287,79 +181,46 @@ decodeComponentFieldset =
     |: ("type" := Json.string)
     |: ("label" := Json.string)
     |: ("label_visible" := Json.bool)
-    --|: ("components" := Json.list decodeComponentType)
+    |: ("components" := Json.list (lazy (\_ -> decodeComponentType)))
 
 decodeComponentToggle =
-  Json.succeed ComponentToggle
-    |: ("path_name" := Json.string)
-    |: ("short_name" := Json.string)
-    |: ("path" := Json.list Json.string)
-    |: ("position" := Json.int)
-    |: ("type" := Json.string)
-    |: ("label_inside_input" := Json.bool)
-    |: ("repository" := decodeRepository)
-    |: ("validation" := decodeValidation)    
-    |: ("label" := Json.string)
-    |: ("label_visible" := Json.bool)
+  decodeComponentBase (Json.succeed ComponentToggle)
     |: ("placeholder_label" := Json.string)
     |: ("options" := Json.list (Json.object2 ValueLabel ("label" := Json.string) ("value" := Json.bool)))
 
 
 decodeComponentTagsInput = 
-  Json.succeed ComponentTagsInput
-    |: ("path_name" := Json.string)
-    |: ("short_name" := Json.string)
-    |: ("path" := Json.list Json.string)
-    |: ("position" := Json.int)
-    |: ("type" := Json.string)
-    |: ("label_inside_input" := Json.bool)
-    |: ("repository" := decodeRepository)
-    |: ("validation" := decodeValidation)    
-    |: ("label" := Json.string)
-    |: ("label_visible" := Json.bool)
+  decodeComponentBase (Json.succeed ComponentTagsInput)
     |: ("placeholder_label" := Json.string)
     |: ("add_button_label" := Json.string)
 
 decodeComponentText =
-  Json.succeed ComponentText
-    |: ("path_name" := Json.string)
-    |: ("short_name" := Json.string)
-    |: ("path" := Json.list Json.string)
-    |: ("position" := Json.int)
-    |: ("type" := Json.string)
-    |: ("label_inside_input" := Json.bool)
-    |: ("repository" := decodeRepository)
-    |: ("validation" := decodeValidation)    
-    |: ("label" := Json.string)
-    |: ("label_visible" := Json.bool)
+  decodeComponentBase (Json.succeed ComponentText)
     |: ("placeholder_label" := Json.string)
 
 decodeComponentDatePicker =
-  Json.succeed ComponentDatePicker
-    |: ("path_name" := Json.string)
-    |: ("short_name" := Json.string)
-    |: ("path" := Json.list Json.string)
-    |: ("position" := Json.int)
-    |: ("type" := Json.string)
-    |: ("label_inside_input" := Json.bool)
-    |: ("repository" := decodeRepository)
-    |: ("validation" := decodeValidation)    
-    |: ("label" := Json.string)
-    |: ("label_visible" := Json.bool)
+  decodeComponentBase (Json.succeed ComponentDatePicker)
+
 
 decodeComponentTextArea =
-  Json.succeed ComponentTextArea
-    |: ("path_name" := Json.string)
-    |: ("short_name" := Json.string)
-    |: ("path" := Json.list Json.string)
-    |: ("position" := Json.int)
-    |: ("type" := Json.string)
-    |: ("label_inside_input" := Json.bool)
-    |: ("repository" := decodeRepository)
-    |: ("validation" := decodeValidation)    
-    |: ("label" := Json.string)
-    |: ("label_visible" := Json.bool)
+  decodeComponentBase (Json.succeed ComponentTextArea)
     |: ("placeholder_label" := Json.string)
+
+decodeComponentRadioButtons =
+  decodeComponentBase (Json.succeed ComponentRadioButtons)
+    |: ("placeholder_label" := Json.string)
+    |: ("options" := Json.list (Json.object2 ValueLabel ("label" := Json.string) ("value" := Json.string)))
+
+decodeComponentNumber =
+  decodeComponentBase (Json.succeed ComponentNumber)
+    |: ("placeholder_label" := Json.string)
+
+decodeComponentSelect =
+  decodeComponentBase (Json.succeed ComponentSelect)
+    |: ("placeholder_label" := Json.string)
+    |: ("default_value" := Json.string)
+    |: ("options" := Json.list (Json.object2 ValueLabel ("label" := Json.string) ("value" := Json.string)))
+
 
 port tasks : Signal (Task.Task Effects.Never ())
 port tasks = 
