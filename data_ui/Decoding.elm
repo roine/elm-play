@@ -20,7 +20,7 @@ type alias Model =
   }
 
 
-type Action = NoOp | AddConfiguration (Maybe Configuration)
+type Action = NoOp | AddConfiguration (Maybe Model)
 
 app = 
   StartApp.start
@@ -69,13 +69,15 @@ update action model =
   case action of 
     NoOp -> (model, Effects.none)
     AddConfiguration conf -> 
-      let ff = Debug.log "lol" conf
-      in
-      (model, Effects.none)
-      --({ model | 
-      --  configuration = Maybe.withDefault model.configuration conf.configuration, 
-      --  report_data = Maybe.withDefault model.report_data conf.report_data}
-      --, Effects.none)
+      case conf of
+        Just decoded ->
+          ( { model | 
+                configuration = decoded.configuration, 
+                report_data = decoded.report_data
+            }
+          , Effects.none )
+        Maybe.Nothing -> (model, Effects.none)
+      
 
 
 fetchConfiguration =
@@ -85,9 +87,8 @@ fetchConfiguration =
   |> Effects.task
 
 decodeConfiguration =
-    --Json.at ["result", "configuration"]  decodeHeadConfiguration 
   Json.object1 identity ("result" := 
-    Json.object2 identity 
+    Json.object2 Model 
       ("configuration" := decodeHeadConfiguration)
       ("initial_data" := (Json.list decodeInitialData)))
 

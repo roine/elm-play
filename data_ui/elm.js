@@ -11726,7 +11726,7 @@ Elm.Decoding.make = function (_elm) {
    A2($Json$Decode._op[":="],"components",$Json$Decode.list($Json$Decode$Extra.lazy(function (_p2) {    return decodeComponentType;}))));
    var decodeInitialData = A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed($Components$System.Datum),A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
-   A2($Json$Decode._op[":="],"value",$Json$Decode.oneOf(_U.list([$Json$Decode.string]))));
+   A2($Json$Decode._op[":="],"value",$Json$Decode.string));
    var decodeBase = function (f) {
       return A2($Json$Decode$Extra._op["|:"],
       A2($Json$Decode$Extra._op["|:"],
@@ -11744,30 +11744,33 @@ Elm.Decoding.make = function (_elm) {
    var decodeHeadConfiguration = A2($Json$Decode$Extra._op["|:"],
    decodeBase($Json$Decode.succeed($Components$System.Configuration)),
    A2($Json$Decode._op[":="],"sections",$Json$Decode.list(decodeSections)));
-   var decodeConfiguration = A2($Json$Decode.object1,
-   $Basics.identity,
-   A2($Json$Decode._op[":="],"result",A2($Json$Decode.object1,$Basics.identity,A2($Json$Decode._op[":="],"configuration",decodeHeadConfiguration))));
    var update = F2(function (action,model) {
       var _p3 = action;
       if (_p3.ctor === "NoOp") {
             return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
          } else {
-            return {ctor: "_Tuple2",_0: _U.update(model,{configuration: A2($Maybe.withDefault,model.configuration,_p3._0)}),_1: $Effects.none};
+            var _p4 = _p3._0;
+            if (_p4.ctor === "Just") {
+                  var _p5 = _p4._0;
+                  return {ctor: "_Tuple2",_0: _U.update(model,{configuration: _p5.configuration,report_data: _p5.report_data}),_1: $Effects.none};
+               } else {
+                  return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+               }
          }
    });
    var renderComponent = F2(function (address,component) {
-      var _p4 = component;
-      switch (_p4.ctor)
-      {case "TagsInput": return A2($Components$Text.view,address,_p4._0);
-         case "Fieldset": return A3($Components$Fieldset.view,address,_p4._0,renderComponent);
-         case "Grid": return A3($Components$Grid.view,address,_p4._0,renderComponent);
-         case "Toggle": return A2($Components$Text.view,address,_p4._0);
-         case "Text": return A2($Components$Text.view,address,_p4._0);
-         case "DatePicker": return A2($Components$Date.view,address,_p4._0);
-         case "TextArea": return A2($Components$Text.view,address,_p4._0);
-         case "RadioButtons": return A2($Components$Text.view,address,_p4._0);
-         case "Number": return A2($Components$Text.view,address,_p4._0);
-         default: return A2($Components$Text.view,address,_p4._0);}
+      var _p6 = component;
+      switch (_p6.ctor)
+      {case "TagsInput": return A2($Components$Text.view,address,_p6._0);
+         case "Fieldset": return A3($Components$Fieldset.view,address,_p6._0,renderComponent);
+         case "Grid": return A3($Components$Grid.view,address,_p6._0,renderComponent);
+         case "Toggle": return A2($Components$Text.view,address,_p6._0);
+         case "Text": return A2($Components$Text.view,address,_p6._0);
+         case "DatePicker": return A2($Components$Date.view,address,_p6._0);
+         case "TextArea": return A2($Components$Text.view,address,_p6._0);
+         case "RadioButtons": return A2($Components$Text.view,address,_p6._0);
+         case "Number": return A2($Components$Text.view,address,_p6._0);
+         default: return A2($Components$Text.view,address,_p6._0);}
    });
    var renderSection = F2(function (address,section) {
       return A2($Html.div,_U.list([]),_U.list([$Html.text("section"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),section.components))]));
@@ -11779,10 +11782,18 @@ Elm.Decoding.make = function (_elm) {
    });
    var configurationModel = {path_name: "",label: "",short_name: "",path: _U.list([]),sections: _U.list([])};
    var AddConfiguration = function (a) {    return {ctor: "AddConfiguration",_0: a};};
-   var fetchConfiguration = $Effects.task(A2($Task.map,AddConfiguration,$Task.toMaybe(A2($Http.get,decodeConfiguration,"/configuration.json"))));
    var NoOp = {ctor: "NoOp"};
-   var Model = function (a) {    return {configuration: a};};
-   var init = {ctor: "_Tuple2",_0: Model(configurationModel),_1: fetchConfiguration};
+   var Model = F2(function (a,b) {    return {configuration: a,report_data: b};});
+   var decodeConfiguration = A2($Json$Decode.object1,
+   $Basics.identity,
+   A2($Json$Decode._op[":="],
+   "result",
+   A3($Json$Decode.object2,
+   Model,
+   A2($Json$Decode._op[":="],"configuration",decodeHeadConfiguration),
+   A2($Json$Decode._op[":="],"initial_data",$Json$Decode.list(decodeInitialData)))));
+   var fetchConfiguration = $Effects.task(A2($Task.map,AddConfiguration,$Task.toMaybe(A2($Http.get,decodeConfiguration,"/configuration.json"))));
+   var init = {ctor: "_Tuple2",_0: A2(Model,configurationModel,_U.list([])),_1: fetchConfiguration};
    var app = $StartApp.start({update: update,view: view,init: init,inputs: _U.list([])});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
