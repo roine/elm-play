@@ -10793,6 +10793,72 @@ Elm.Html.Attributes.make = function (_elm) {
                                         ,property: property
                                         ,attribute: attribute};
 };
+Elm.Html = Elm.Html || {};
+Elm.Html.Events = Elm.Html.Events || {};
+Elm.Html.Events.make = function (_elm) {
+   "use strict";
+   _elm.Html = _elm.Html || {};
+   _elm.Html.Events = _elm.Html.Events || {};
+   if (_elm.Html.Events.values) return _elm.Html.Events.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $VirtualDom = Elm.VirtualDom.make(_elm);
+   var _op = {};
+   var keyCode = A2($Json$Decode._op[":="],"keyCode",$Json$Decode.$int);
+   var targetChecked = A2($Json$Decode.at,_U.list(["target","checked"]),$Json$Decode.bool);
+   var targetValue = A2($Json$Decode.at,_U.list(["target","value"]),$Json$Decode.string);
+   var defaultOptions = $VirtualDom.defaultOptions;
+   var Options = F2(function (a,b) {    return {stopPropagation: a,preventDefault: b};});
+   var onWithOptions = $VirtualDom.onWithOptions;
+   var on = $VirtualDom.on;
+   var messageOn = F3(function (name,addr,msg) {    return A3(on,name,$Json$Decode.value,function (_p0) {    return A2($Signal.message,addr,msg);});});
+   var onClick = messageOn("click");
+   var onDoubleClick = messageOn("dblclick");
+   var onMouseMove = messageOn("mousemove");
+   var onMouseDown = messageOn("mousedown");
+   var onMouseUp = messageOn("mouseup");
+   var onMouseEnter = messageOn("mouseenter");
+   var onMouseLeave = messageOn("mouseleave");
+   var onMouseOver = messageOn("mouseover");
+   var onMouseOut = messageOn("mouseout");
+   var onBlur = messageOn("blur");
+   var onFocus = messageOn("focus");
+   var onSubmit = messageOn("submit");
+   var onKey = F3(function (name,addr,handler) {    return A3(on,name,keyCode,function (code) {    return A2($Signal.message,addr,handler(code));});});
+   var onKeyUp = onKey("keyup");
+   var onKeyDown = onKey("keydown");
+   var onKeyPress = onKey("keypress");
+   return _elm.Html.Events.values = {_op: _op
+                                    ,onBlur: onBlur
+                                    ,onFocus: onFocus
+                                    ,onSubmit: onSubmit
+                                    ,onKeyUp: onKeyUp
+                                    ,onKeyDown: onKeyDown
+                                    ,onKeyPress: onKeyPress
+                                    ,onClick: onClick
+                                    ,onDoubleClick: onDoubleClick
+                                    ,onMouseMove: onMouseMove
+                                    ,onMouseDown: onMouseDown
+                                    ,onMouseUp: onMouseUp
+                                    ,onMouseEnter: onMouseEnter
+                                    ,onMouseLeave: onMouseLeave
+                                    ,onMouseOver: onMouseOver
+                                    ,onMouseOut: onMouseOut
+                                    ,on: on
+                                    ,onWithOptions: onWithOptions
+                                    ,defaultOptions: defaultOptions
+                                    ,targetValue: targetValue
+                                    ,targetChecked: targetChecked
+                                    ,keyCode: keyCode
+                                    ,Options: Options};
+};
 Elm.Native.Http = {};
 Elm.Native.Http.make = function(localRuntime) {
 
@@ -11153,8 +11219,8 @@ Elm.Components.Date.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var view = F2(function (address,conf) {
-      return A2($Html.div,_U.list([]),_U.list([$Html.text(conf.label),A2($Html.input,_U.list([$Html$Attributes.type$("date")]),_U.list([]))]));
+   var view = F3(function (address,conf,currentValue) {
+      return A2($Html.div,_U.list([]),_U.list([A2($Html.input,_U.list([$Html$Attributes.type$("date")]),_U.list([]))]));
    });
    return _elm.Components.Date.values = {_op: _op,view: view};
 };
@@ -11174,8 +11240,10 @@ Elm.Components.Fieldset.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var view = F3(function (address,model,renderComponent) {
-      return A2($Html.div,_U.list([]),_U.list([$Html.text("fieldset"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),model.components))]));
+   var view = F4(function (address,model,renderComponent,report_data) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text("fieldset"),A2($Html.div,_U.list([]),A2($List.map,A2(renderComponent,address,report_data),model.components))]));
    });
    return _elm.Components.Fieldset.values = {_op: _op,view: view};
 };
@@ -11195,8 +11263,10 @@ Elm.Components.Grid.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var view = F3(function (address,model,renderComponent) {
-      return A2($Html.div,_U.list([]),_U.list([$Html.text("grid"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),model.components))]));
+   var view = F4(function (address,model,renderComponent,report_data) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text("grid"),A2($Html.div,_U.list([]),A2($List.map,A2(renderComponent,address,report_data),model.components))]));
    });
    return _elm.Components.Grid.values = {_op: _op,view: view};
 };
@@ -11513,9 +11583,21 @@ Elm.Components.System.make = function (_elm) {
    var Repository = F4(function (a,b,c,d) {    return {path_name: a,path: b,class_name: c,short_name: d};});
    var Section = F7(function (a,b,c,d,e,f,g) {    return {path_name: a,label: b,short_name: c,path: d,template: e,position: f,components: g};});
    var Datum = F2(function (a,b) {    return {path: a,value: b};});
+   var Int = function (a) {    return {ctor: "Int",_0: a};};
+   var String = function (a) {    return {ctor: "String",_0: a};};
    var Configuration = F5(function (a,b,c,d,e) {    return {path_name: a,short_name: b,label: c,path: d,sections: e};});
+   var Model = F2(function (a,b) {    return {configuration: a,report_data: b};});
+   var Update = F2(function (a,b) {    return {ctor: "Update",_0: a,_1: b};});
+   var AddConfiguration = function (a) {    return {ctor: "AddConfiguration",_0: a};};
+   var NoOp = {ctor: "NoOp"};
    return _elm.Components.System.values = {_op: _op
+                                          ,NoOp: NoOp
+                                          ,AddConfiguration: AddConfiguration
+                                          ,Update: Update
+                                          ,Model: Model
                                           ,Configuration: Configuration
+                                          ,String: String
+                                          ,Int: Int
                                           ,Datum: Datum
                                           ,Section: Section
                                           ,Repository: Repository
@@ -11552,16 +11634,30 @@ Elm.Components.Text.make = function (_elm) {
    if (_elm.Components.Text.values) return _elm.Components.Text.values;
    var _U = Elm.Native.Utils.make(_elm),
    $Basics = Elm.Basics.make(_elm),
+   $Components$System = Elm.Components.System.make(_elm),
    $Debug = Elm.Debug.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var view = F2(function (address,conf) {
-      return A2($Html.div,_U.list([]),_U.list([$Html.text(conf.type$),A2($Html.input,_U.list([$Html$Attributes.type$("text")]),_U.list([]))]));
+   var view = F3(function (address,conf,currentValue) {
+      var val = function () {    var _p0 = currentValue;if (_p0.ctor === "String") {    return _p0._0;} else {    return "";}}();
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([A2($Html.input,
+      _U.list([$Html$Attributes.type$("text")
+              ,$Html$Attributes.value(val)
+              ,A3($Html$Events.on,
+              "input",
+              $Html$Events.targetValue,
+              function (str) {
+                 return A2($Signal.message,address,A2($Components$System.Update,str,conf.path));
+              })]),
+      _U.list([]))]));
    });
    return _elm.Components.Text.values = {_op: _op,view: view};
 };
@@ -11578,6 +11674,7 @@ Elm.Decoding.make = function (_elm) {
    $Components$System = Elm.Components.System.make(_elm),
    $Components$Text = Elm.Components.Text.make(_elm),
    $Debug = Elm.Debug.make(_elm),
+   $Dict = Elm.Dict.make(_elm),
    $Effects = Elm.Effects.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Http = Elm.Http.make(_elm),
@@ -11726,7 +11823,10 @@ Elm.Decoding.make = function (_elm) {
    A2($Json$Decode._op[":="],"components",$Json$Decode.list($Json$Decode$Extra.lazy(function (_p2) {    return decodeComponentType;}))));
    var decodeInitialData = A2($Json$Decode$Extra._op["|:"],
    A2($Json$Decode$Extra._op["|:"],$Json$Decode.succeed($Components$System.Datum),A2($Json$Decode._op[":="],"path",$Json$Decode.list($Json$Decode.string))),
-   A2($Json$Decode._op[":="],"value",$Json$Decode.string));
+   A2($Json$Decode._op[":="],
+   "value",
+   $Json$Decode.oneOf(_U.list([A2($Json$Decode.map,$Components$System.String,$Json$Decode.string)
+                              ,A2($Json$Decode.map,$Components$System.Int,$Json$Decode.$int)]))));
    var decodeBase = function (f) {
       return A2($Json$Decode$Extra._op["|:"],
       A2($Json$Decode$Extra._op["|:"],
@@ -11744,69 +11844,102 @@ Elm.Decoding.make = function (_elm) {
    var decodeHeadConfiguration = A2($Json$Decode$Extra._op["|:"],
    decodeBase($Json$Decode.succeed($Components$System.Configuration)),
    A2($Json$Decode._op[":="],"sections",$Json$Decode.list(decodeSections)));
-   var update = F2(function (action,model) {
-      var _p3 = action;
-      if (_p3.ctor === "NoOp") {
-            return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
-         } else {
-            var _p4 = _p3._0;
-            if (_p4.ctor === "Just") {
-                  var _p5 = _p4._0;
-                  return {ctor: "_Tuple2",_0: _U.update(model,{configuration: _p5.configuration,report_data: _p5.report_data}),_1: $Effects.none};
-               } else {
-                  return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
-               }
-         }
-   });
-   var renderComponent = F2(function (address,component) {
-      var _p6 = component;
-      switch (_p6.ctor)
-      {case "TagsInput": return A2($Components$Text.view,address,_p6._0);
-         case "Fieldset": return A3($Components$Fieldset.view,address,_p6._0,renderComponent);
-         case "Grid": return A3($Components$Grid.view,address,_p6._0,renderComponent);
-         case "Toggle": return A2($Components$Text.view,address,_p6._0);
-         case "Text": return A2($Components$Text.view,address,_p6._0);
-         case "DatePicker": return A2($Components$Date.view,address,_p6._0);
-         case "TextArea": return A2($Components$Text.view,address,_p6._0);
-         case "RadioButtons": return A2($Components$Text.view,address,_p6._0);
-         case "Number": return A2($Components$Text.view,address,_p6._0);
-         default: return A2($Components$Text.view,address,_p6._0);}
-   });
-   var renderSection = F2(function (address,section) {
-      return A2($Html.div,_U.list([]),_U.list([$Html.text("section"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),section.components))]));
-   });
-   var view = F2(function (address,model) {
-      return A2($Html.div,
-      _U.list([]),
-      _U.list([$Html.text($Basics.toString(model)),A2($Html.div,_U.list([]),A2($List.map,renderSection(address),model.configuration.sections))]));
-   });
-   var configurationModel = {path_name: "",label: "",short_name: "",path: _U.list([]),sections: _U.list([])};
-   var AddConfiguration = function (a) {    return {ctor: "AddConfiguration",_0: a};};
-   var NoOp = {ctor: "NoOp"};
-   var Model = F2(function (a,b) {    return {configuration: a,report_data: b};});
    var decodeConfiguration = A2($Json$Decode.object1,
    $Basics.identity,
    A2($Json$Decode._op[":="],
    "result",
    A3($Json$Decode.object2,
-   Model,
+   $Components$System.Model,
    A2($Json$Decode._op[":="],"configuration",decodeHeadConfiguration),
    A2($Json$Decode._op[":="],"initial_data",$Json$Decode.list(decodeInitialData)))));
-   var fetchConfiguration = $Effects.task(A2($Task.map,AddConfiguration,$Task.toMaybe(A2($Http.get,decodeConfiguration,"/configuration.json"))));
-   var init = {ctor: "_Tuple2",_0: A2(Model,configurationModel,_U.list([])),_1: fetchConfiguration};
+   var fetchConfiguration = $Effects.task(A2($Task.map,
+   $Components$System.AddConfiguration,
+   $Task.toMaybe(A2($Http.get,decodeConfiguration,"/configuration.json"))));
+   var setAtPath = F3(function (path,data,newVal) {
+      return A2($List.map,
+      function (_p3) {
+         var _p4 = _p3;
+         return {path: _p4._0,value: _p4._1};
+      },
+      $Dict.toList(A3($Dict.insert,
+      path,
+      $Components$System.String(newVal),
+      $Dict.fromList(A2($List.map,function (d) {    return {ctor: "_Tuple2",_0: d.path,_1: d.value};},data)))));
+   });
+   var update = F2(function (action,model) {
+      var _p5 = action;
+      switch (_p5.ctor)
+      {case "NoOp": return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+         case "Update": var _p7 = _p5._1;
+           var _p6 = _p5._0;
+           var d = A3(setAtPath,_p7,model.report_data,_p6);
+           return {ctor: "_Tuple2",_0: _U.update(model,{report_data: A3(setAtPath,_p7,model.report_data,_p6)}),_1: $Effects.none};
+         default: var _p8 = _p5._0;
+           if (_p8.ctor === "Just") {
+                 var _p9 = _p8._0;
+                 return {ctor: "_Tuple2",_0: _U.update(model,{configuration: _p9.configuration,report_data: _p9.report_data}),_1: $Effects.none};
+              } else {
+                 return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
+              }}
+   });
+   var getAtPath = F2(function (path,data) {
+      var value = A2($Dict.get,
+      path,
+      $Dict.fromList(A2($Debug.log,"get",A2($List.map,function (d) {    return {ctor: "_Tuple2",_0: d.path,_1: d.value};},data))));
+      var _p10 = value;
+      if (_p10.ctor === "Just") {
+            return _p10._0;
+         } else {
+            return $Components$System.String("");
+         }
+   });
+   var renderComponent = F3(function (address,report_data,component) {
+      var _p11 = component;
+      switch (_p11.ctor)
+      {case "TagsInput": var _p12 = _p11._0;
+           return A3($Components$Text.view,address,_p12,A2(getAtPath,_p12.path,report_data));
+         case "Fieldset": return A4($Components$Fieldset.view,address,_p11._0,renderComponent,report_data);
+         case "Grid": return A4($Components$Grid.view,address,_p11._0,renderComponent,report_data);
+         case "Toggle": var _p13 = _p11._0;
+           return A3($Components$Text.view,address,_p13,A2(getAtPath,_p13.path,report_data));
+         case "Text": var _p14 = _p11._0;
+           return A3($Components$Text.view,address,_p14,A2(getAtPath,_p14.path,report_data));
+         case "DatePicker": var _p15 = _p11._0;
+           return A3($Components$Date.view,address,_p15,A2(getAtPath,_p15.path,report_data));
+         case "TextArea": var _p16 = _p11._0;
+           return A3($Components$Text.view,address,_p16,A2(getAtPath,_p16.path,report_data));
+         case "RadioButtons": var _p17 = _p11._0;
+           return A3($Components$Text.view,address,_p17,A2(getAtPath,_p17.path,report_data));
+         case "Number": var _p18 = _p11._0;
+           return A3($Components$Text.view,address,_p18,A2(getAtPath,_p18.path,report_data));
+         default: var _p19 = _p11._0;
+           return A3($Components$Text.view,address,_p19,A2(getAtPath,_p19.path,report_data));}
+   });
+   var renderSection = F3(function (address,report_data,section) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text("section"),A2($Html.div,_U.list([]),A2($List.map,A2(renderComponent,address,report_data),section.components))]));
+   });
+   var view = F2(function (address,model) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text($Basics.toString(model))
+              ,A2($Html.div,_U.list([]),A2($List.map,A2(renderSection,address,model.report_data),model.configuration.sections))]));
+   });
+   var configurationModel = {path_name: "",label: "",short_name: "",path: _U.list([]),sections: _U.list([])};
+   var init = {ctor: "_Tuple2",_0: A2($Components$System.Model,configurationModel,_U.list([])),_1: fetchConfiguration};
    var app = $StartApp.start({update: update,view: view,init: init,inputs: _U.list([])});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
    return _elm.Decoding.values = {_op: _op
-                                 ,Model: Model
-                                 ,NoOp: NoOp
-                                 ,AddConfiguration: AddConfiguration
                                  ,app: app
                                  ,main: main
                                  ,init: init
                                  ,configurationModel: configurationModel
                                  ,view: view
                                  ,renderSection: renderSection
+                                 ,getAtPath: getAtPath
+                                 ,setAtPath: setAtPath
                                  ,renderComponent: renderComponent
                                  ,update: update
                                  ,fetchConfiguration: fetchConfiguration

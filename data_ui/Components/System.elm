@@ -1,5 +1,11 @@
 module Components.System where
 
+type Action = NoOp | AddConfiguration (Maybe Model) | Update String Path
+
+type alias Model = 
+  { configuration: Configuration
+  , report_data: ReportData
+  }
 
 type alias Path =
   List String
@@ -11,10 +17,11 @@ type alias Configuration =
   , path: Path
   , sections: List Section
   }
+type Value = String String | Int Int
 
 type alias Datum = 
   { path: Path
-  , value: String
+  , value: Value
   }
 
 type alias ReportData =

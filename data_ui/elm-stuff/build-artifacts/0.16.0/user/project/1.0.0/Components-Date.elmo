@@ -15,8 +15,8 @@ Elm.Components.Date.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var view = F2(function (address,conf) {
-      return A2($Html.div,_U.list([]),_U.list([$Html.text(conf.label),A2($Html.input,_U.list([$Html$Attributes.type$("date")]),_U.list([]))]));
+   var view = F3(function (address,conf,currentValue) {
+      return A2($Html.div,_U.list([]),_U.list([A2($Html.input,_U.list([$Html$Attributes.type$("date")]),_U.list([]))]));
    });
    return _elm.Components.Date.values = {_op: _op,view: view};
 };

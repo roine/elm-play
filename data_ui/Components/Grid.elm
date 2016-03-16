@@ -5,11 +5,11 @@ import Html exposing (..)
 
 
 
-view address model renderComponent =
+view address model renderComponent report_data =
   div [] 
     [ text "grid"
     , div [] 
-          (List.map (renderComponent address) model.components)
+          (List.map (renderComponent address report_data) model.components)
     ]
 
 

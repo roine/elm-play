@@ -3,8 +3,7 @@ module Components.Date where
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-view address conf = 
+view address conf currentValue = 
   div [] 
-    [ text conf.label
-    , input [type' "date"] []
+    [  input [type' "date"] []
     ]

@@ -14,8 +14,10 @@ Elm.Components.Fieldset.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
    var _op = {};
-   var view = F3(function (address,model,renderComponent) {
-      return A2($Html.div,_U.list([]),_U.list([$Html.text("fieldset"),A2($Html.div,_U.list([]),A2($List.map,renderComponent(address),model.components))]));
+   var view = F4(function (address,model,renderComponent,report_data) {
+      return A2($Html.div,
+      _U.list([]),
+      _U.list([$Html.text("fieldset"),A2($Html.div,_U.list([]),A2($List.map,A2(renderComponent,address,report_data),model.components))]));
    });
    return _elm.Components.Fieldset.values = {_op: _op,view: view};
 };

@@ -311,9 +311,21 @@ Elm.Components.System.make = function (_elm) {
    var Repository = F4(function (a,b,c,d) {    return {path_name: a,path: b,class_name: c,short_name: d};});
    var Section = F7(function (a,b,c,d,e,f,g) {    return {path_name: a,label: b,short_name: c,path: d,template: e,position: f,components: g};});
    var Datum = F2(function (a,b) {    return {path: a,value: b};});
+   var Int = function (a) {    return {ctor: "Int",_0: a};};
+   var String = function (a) {    return {ctor: "String",_0: a};};
    var Configuration = F5(function (a,b,c,d,e) {    return {path_name: a,short_name: b,label: c,path: d,sections: e};});
+   var Model = F2(function (a,b) {    return {configuration: a,report_data: b};});
+   var Update = F2(function (a,b) {    return {ctor: "Update",_0: a,_1: b};});
+   var AddConfiguration = function (a) {    return {ctor: "AddConfiguration",_0: a};};
+   var NoOp = {ctor: "NoOp"};
    return _elm.Components.System.values = {_op: _op
+                                          ,NoOp: NoOp
+                                          ,AddConfiguration: AddConfiguration
+                                          ,Update: Update
+                                          ,Model: Model
                                           ,Configuration: Configuration
+                                          ,String: String
+                                          ,Int: Int
                                           ,Datum: Datum
                                           ,Section: Section
                                           ,Repository: Repository

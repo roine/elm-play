@@ -7,20 +7,13 @@ import Task
 import Http
 import Json.Decode as Json exposing ((:=), map)
 import Json.Decode.Extra as Json2 exposing ((|:), lazy)
+import Dict
 
 import Components.Text
 import Components.Date
 import Components.Fieldset
 import Components.Grid
 import Components.System exposing (..)
-
-type alias Model = 
-  { configuration: Configuration
-  , report_data: ReportData
-  }
-
-
-type Action = NoOp | AddConfiguration (Maybe Model)
 
 app = 
   StartApp.start
@@ -42,32 +35,59 @@ configurationModel =
 view address model =
   div [] 
     [ text (toString model)
-    ,  div [] (List.map (renderSection address) model.configuration.sections)
+    ,  div [] (List.map (renderSection address model.report_data) model.configuration.sections)
     ]
 
-renderSection address section =
+renderSection address report_data section =
   div [] 
     [ text "section"
-    , div [] (List.map (renderComponent address) section.components)
+    , div [] (List.map (renderComponent address report_data) section.components)
     ]
 
-renderComponent address component =
+getAtPath path data = 
+  let 
+    value = data 
+    |> List.map (\d -> (d.path, d.value)) 
+    |> Dict.fromList 
+    |> Dict.get path
+  in 
+    case value of
+      Just value ->  value
+      Nothing -> String ""
+
+setAtPath path data newVal =
+  data 
+    |> List.map (\d -> (d.path, d.value)) 
+    |> Dict.fromList  
+    |> Dict.insert path (String newVal)
+    |> Dict.toList
+    |> List.map (\(path, value) -> {path = path, value = value})
+
+
+
+--renderComponent: Signal.Address -> ReportData -> Component -> Html.Html
+renderComponent address report_data component =
   case component of
-    TagsInput t -> Components.Text.view address t
-    Fieldset t -> Components.Fieldset.view address t renderComponent
-    Grid t -> Components.Grid.view address t renderComponent
-    Toggle t -> Components.Text.view address t
-    Text t -> Components.Text.view address t
-    DatePicker t -> Components.Date.view address t
-    TextArea t -> Components.Text.view address t
-    RadioButtons t -> Components.Text.view address t
-    Number t -> Components.Text.view address t
-    Select t -> Components.Text.view address t
+    TagsInput opts -> Components.Text.view address opts (getAtPath opts.path report_data)
+    Fieldset opts -> Components.Fieldset.view address opts renderComponent report_data
+    Grid opts -> Components.Grid.view address opts renderComponent report_data
+    Toggle opts -> Components.Text.view address opts (getAtPath opts.path report_data)
+    Text opts -> Components.Text.view address opts (getAtPath opts.path report_data)
+    DatePicker opts -> Components.Date.view address opts (getAtPath opts.path report_data)
+    TextArea opts -> Components.Text.view address opts (getAtPath opts.path report_data)
+    RadioButtons opts -> Components.Text.view address opts (getAtPath opts.path report_data)
+    Number opts -> Components.Text.view address opts (getAtPath opts.path report_data)
+    Select opts -> Components.Text.view address opts (getAtPath opts.path report_data)
+
 
 
 update action model =
   case action of 
     NoOp -> (model, Effects.none)
+    Update newVal path-> 
+      let d = (setAtPath path model.report_data newVal)
+      in
+      ({model | report_data = setAtPath path model.report_data newVal}, Effects.none)
     AddConfiguration conf -> 
       case conf of
         Just decoded ->
@@ -102,7 +122,7 @@ decodeBase f =
 decodeInitialData =
   Json.succeed Datum
     |: ("path" := Json.list Json.string)
-    |: ("value" := Json.string)
+    |: ("value" := Json.oneOf [map String Json.string, map Int Json.int])
 
 decodeHeadConfiguration =
   decodeBase ( Json.succeed Configuration )
